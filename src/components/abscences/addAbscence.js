@@ -12,7 +12,8 @@ export default class addAbscence extends Component {
         start_date:'',
         return_date:'',
         leave_remaining:'',
-        employeeId:''
+        employeeId:'',
+        value: 3
     };
     this.onChangeTypeofLeave = this.onChangeTypeofLeave.bind(this);
     this.onChangeStartDate= this.onChangeStartDate.bind(this);
@@ -20,7 +21,6 @@ export default class addAbscence extends Component {
     this.onChangeleaveRemaining = this.onChangeleaveRemaining.bind(this);
     this.onChangeEmployeeID = this.onChangeEmployeeID.bind(this);
     this.componentDidMount=this.componentDidMount.bind(this);
-    this.componentWillUpdate=this.componentWillUpdate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChangeTypeofLeave(e) {
@@ -39,16 +39,13 @@ export default class addAbscence extends Component {
     console.log(e.target.value);
     this.setState({ leave_remaining: e.target.value })
   }
-  onChangeEmployeeID(e,id) {
-    this.setState({ employeeId: id })
-    console.log(this.state.employeeId);
-  }
-  /*
-  componentWillUpdate(e,id){
+  onChangeEmployeeID(e) {
     this.setState({
-      employeeId:id
-    })
-  }*/
+      employeeId: e.target.value
+    }, function () {
+      console.log(this.state.employeeId);
+  });
+  }
    onSubmit(e) {
     e.preventDefault();
      console.log(this.state.return_date);
@@ -125,10 +122,14 @@ export default class addAbscence extends Component {
                  onChange={(e)=>this.onChangeleaveRemaining(e)}/>
               </div>
               <div className="form-group">
-                <label>Employee Name <span className="text-danger">*</span></label>
-          
+                <label>Employee Name<span className="text-danger">*</span></label>
+                <select  value={this.state.employeeId} onChange={(e)=>this.onChangeEmployeeID(e)}>
+                {this.state.AllEmployees.map((employee)=>
+                  <option  value={employee.id}>{employee.first_name} {employee.last_name}</option>
+                  )}     
+                </select>     
               </div>
-              <div >
+              <div>
                 <input type="submit"/ >
               </div>
             </form>

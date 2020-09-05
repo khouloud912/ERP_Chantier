@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Field } from "react-final-form";
-import { Radio, Select } from "final-form-material-ui";
+import { Radio} from "final-form-material-ui";
 import {
   Paper,
   Grid,
@@ -12,6 +12,8 @@ import {
   FormControl,
   FormControlLabel,
   TextField,
+  Select
+
 } from "@material-ui/core";
 import axios from 'axios';
 import { TimePicker, DatePicker } from "@material-ui/pickers";
@@ -32,6 +34,7 @@ export default class AddEmployee extends Component {
       hiring_date: "",
       salary: "",
       office: "",
+      DepartmentID:'',
       AllDepartment:[{}]
     };
     this.handleChange = this.handleChange.bind(this);
@@ -46,13 +49,12 @@ export default class AddEmployee extends Component {
     this.onChangehiringDate = this.onChangehiringDate.bind(this);
     this.onChangeSalary = this.onChangeSalary.bind(this);
     this.onChangeoffice = this.onChangeoffice.bind(this);
+    this.onchangeDepartmentID =this.onchangeDepartmentID.bind(this);
     this.componentDidMount =this.componentDidMount.bind(this);
-
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleChange = (e) => {
     console.log(e.target.value);
-
     this.setState({ last_name: e.target.value });
   };
   onChangefirstName = (e) => {
@@ -61,7 +63,6 @@ export default class AddEmployee extends Component {
   };
   onChangedateofbirth = (e) => {
     console.log(e.target.value);
-
     this.setState({ date_of_birth: e.target.value });
     console.log(this.state.date_of_birth);
   };
@@ -70,12 +71,9 @@ export default class AddEmployee extends Component {
     this.setState({ phone_number: e.target.value });
     console.log(this.state.phone_number);
   };
-
-
   onChangegender = (e) => {
     console.log(e.target.value);
     this.setState({ gender: e.target.value });
-    console.log(this.state.gender);
   };
   onChangepostalAdress = (e) => {
     console.log(e.target.value);
@@ -109,12 +107,16 @@ export default class AddEmployee extends Component {
     console.log(e.target.value);
     this.setState({ office: e.target.value });
   };
+  onchangeDepartmentID=(e)=>{
+    this.setState({
+      DepartmentID: e.target.value
+    }, function () {
+      console.log(this.state.DepartmentID);
+  });
+  }
   handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(this.state.first_name);
-  //  alert("A name was submitted: " + this.state.first_name);
-
-  console.log(this.state.first_name ,this.state.phone_number , this.state.school_level , this.state.current_position ) 
+  console.log(this.state.first_name ,this.state.phone_number ,this.state.school_level , this.state.current_position ) 
    axios.post('http://localhost:3001/Employee/addEmployee',{
     first_name: this.state.first_name,
     last_name :this.state.last_name,
@@ -127,6 +129,7 @@ export default class AddEmployee extends Component {
     postal_adress:this.state.postal_adress,
     gender:this.state.gender,
     phone_number:this.state.phone_number,
+    departementId:this.state.DepartmentID,
     date_of_birth:this.state.date_of_birth
   }
    )
@@ -146,7 +149,6 @@ export default class AddEmployee extends Component {
             })
      })
   }
-
   DatePickerWrapper(props) {
     const {
       input: { name, onChange, value, ...restInput },
@@ -279,7 +281,7 @@ export default class AddEmployee extends Component {
                             required
                             name="date"
                             type="date"
-                            label="date of birth "
+                            label="date of birth"
                             value={this.state.date_of_birth}
                             onChange={(e) => this.onChangedateofbirth(e)}
                           />
@@ -302,10 +304,12 @@ export default class AddEmployee extends Component {
                         </Field>
                     </Grid>
                     <Grid item xs={12}>
-                 
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Gender</FormLabel>
-                        <RadioGroup row>
+                        <RadioGroup row
+                        value={this.state.gender}
+                        onChange={(e)=>this.onChangegender(e)}
+                        >
                           <FormControlLabel
                             label="Male"
                             control={
@@ -331,7 +335,6 @@ export default class AddEmployee extends Component {
                         </RadioGroup>
                       </FormControl>
                     </Grid>
-
                     <Grid item xs={6}>
                     <Field>
                         {(props) => (
@@ -423,16 +426,21 @@ export default class AddEmployee extends Component {
                         </Field>
                     </Grid>
                     <Grid item xs={6}>
-                      <Field
+                      <Field>
+                       {(props) => (
+                        <Select
                         fullWidth
+                        required
                         name="department"
-                        component={Select}
                         label="Select a department"
                         formControlProps={{ fullWidth: true }}
-                      >
+                        value={this.state.DepartmentID}
+                        onChange={(e)=>this.onchangeDepartmentID(e)}>
                         {this.state.AllDepartment.map((department)=>(
                         <MenuItem value={department.id}>{department.departement_name}</MenuItem>
                         ))}
+                      </Select>
+                       )}
                       </Field>
                     </Grid>
                     <Grid item xs={6}>
@@ -450,7 +458,7 @@ export default class AddEmployee extends Component {
                         )}
                       </Field>
                     </Grid>
-                    <Grid item style={{ marginTop: 16 }}>
+                    <Grid item style={{ marginTop:16 }}>
                       <Button
                         type="button"
                         variant="contained"

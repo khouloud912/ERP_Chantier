@@ -7,15 +7,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import '@fortawesome/fontawesome-free/css/all.min.css'; 
 import 'bootstrap-css-only/css/bootstrap.min.css'; 
 import 'mdbreact/dist/css/mdb.css';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import rootReducer from'../src/reducers/rootReducer';
-const store= createStore(rootReducer);
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
     <App/>
-    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

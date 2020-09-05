@@ -3,9 +3,6 @@ import React , {Component} from 'react';
 class Dashboard extends Component {
   constructor(props){
     super(props);
-    console.log(this.props.Rhstate)
-    console.log(this.props.FinanceState)
-    console.log(this.props.projectState)
   }
     render(){ 
         return (
@@ -59,12 +56,51 @@ class Dashboard extends Component {
               </div>:null
                }
               {this.props.FinanceState?
+              <div>
               <li class="nav-item">
-                <a class="nav-link" href="/departement">
+                <a class="nav-link" href="/AddArticle">
                   <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">article</span>
+                  <span class="menu-title">Article</span>
                 </a>
-              </li>:null
+              </li>
+               <li class="nav-item">
+               <a class="nav-link" href="/">
+                 <i class="icon-rocket menu-icon"></i>
+                 <span class="menu-title">Category</span>
+               </a>
+             </li>
+              <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="icon-rocket menu-icon"></i>
+                <span class="menu-title">marque</span>
+              </a>
+            </li>
+            <li class="nav-item">
+               <a class="nav-link" href="/">
+                 <i class="icon-rocket menu-icon"></i>
+                 <span class="menu-title">Providers</span>
+               </a>
+             </li> 
+             <li class="nav-item">
+               <a class="nav-link" href="/">
+                 <i class="icon-rocket menu-icon"></i>
+                 <span class="menu-title">Commandes</span>
+               </a>
+             </li> 
+             <li class="nav-item">
+               <a class="nav-link" href="/">
+                 <i class="icon-rocket menu-icon"></i>
+                 <span class="menu-title">Commande lignes</span>
+               </a>
+             </li> 
+             <li class="nav-item">
+               <a class="nav-link" href="/">
+                 <i class="icon-rocket menu-icon"></i>
+                 <span class="menu-title">Statistics</span>
+               </a>
+             </li> 
+             </div>
+              :null
                   }
               </ul>
           </nav>
