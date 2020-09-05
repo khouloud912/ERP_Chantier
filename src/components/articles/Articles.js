@@ -46,7 +46,7 @@ import { ADD_PRODUCT_CART } from '../../store/actions/types';
                    
                     <div class="buy d-flex justify-content-between align-items-center">
                     <div class="price text-success"><h5 class="mt-4"> {Article.quantity} pieces</h5></div>
-                       <a href="#" class="btn btn-danger mt-3"  onClick={this.props.addCart()}><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                       <a href="#" class="btn btn-danger mt-3"  onClick={this.props.addCart}><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                     </div>
                   </div>
                 </div>

@@ -3,10 +3,13 @@ import axios from'axios';
 
 
 export const addCart =()=>{
-   return {
-       type:ADD_PRODUCT_CART
-   }
+    return function (dispatch) {
+        dispatch({
+             type:ADD_PRODUCT_CART
+        })
+    }
 }
+
 export const fetchArticleDetails=()=> {
     return function(dispatch) {
       return axios.get("http://localhost:3001/Article/getAllArticles")

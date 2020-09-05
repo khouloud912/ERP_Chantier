@@ -1,7 +1,7 @@
 
 import { ADD_PRODUCT_CART ,GET_NUMBERS_PRODUCT ,GET_ARTICLES} from "../actions/types";
 const initialState={
-    cartNumbers :  0,
+    cartNumbers : 0,
     products:[]
 }
 export default (state =initialState, action)=>{
@@ -9,8 +9,10 @@ export default (state =initialState, action)=>{
     switch(action.type){
         case GET_ARTICLES:
             return {
+                ...state,
                 products:action.payload.data
             }
+            break;
         case ADD_PRODUCT_CART:
             return {
                 ...state,
