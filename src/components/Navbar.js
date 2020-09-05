@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {getNumbers} from '.././store/actions/getAction';
 
 
-
 class Navbar extends Component {
   constructor(props) {
     console.log(props)   
@@ -194,11 +193,10 @@ class Navbar extends Component {
                 <li class="nav-item nav-settings d-none d-lg-block">
                   <a class="nav-link" href="#">
                     <i class="icon-grid"></i>
-                    
                   </a>
                 </li>
                 <li>
-                <a data-toggle="tooltip" data-placement="top" title="Add to Cart" ><i class="fas fa-shopping-cart mr-3"></i></a>
+                <a data-toggle="tooltip" data-placement="top" title="Add to Cart"  href="/commande" ><i class="fas fa-shopping-cart mr-3"></i></a>
         <span class="badge badge-danger">{this.props.cartProps.cartNumbers}</span>
                 </li>
                 

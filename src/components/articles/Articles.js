@@ -3,6 +3,7 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {addCart} from '../../store/actions/addToCartAction';
+import {fetchArticleDetails} from '../../store/actions/addToCartAction';
 import { ADD_PRODUCT_CART } from '../../store/actions/types';
 
  class Articles extends Component {
@@ -17,6 +18,8 @@ import { ADD_PRODUCT_CART } from '../../store/actions/types';
         this.componentDidMount=this.componentDidMount.bind(this);
       }
       componentDidMount() {
+        this.props.fetchArticleDetails();
+
         return axios.get("http://localhost:3001/Article/getAllArticles").then((response)=>{
           console.log(response.data);
           this.setState({
@@ -56,7 +59,8 @@ import { ADD_PRODUCT_CART } from '../../store/actions/types';
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCart: () => dispatch(addCart()),
+    addCart: () => dispatch(addCart()), 
+    fetchArticleDetails:()=>dispatch(fetchArticleDetails())
   };
 };
 
