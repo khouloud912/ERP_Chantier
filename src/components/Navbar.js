@@ -216,6 +216,7 @@ class Navbar extends Component {
         )
     }
 }
+
 const mapStateToProps=state=>({
 cartProps :state.cartState
 

@@ -1,16 +1,25 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
-export default class commande extends Component {
-    render() {
+
+
+ class Commande extends Component {
+  constructor(props) {
+    console.log(props)  ;
+    console.log(props.cart); 
+    super(props);
+
+  }
+
+      render() {
         return (
             <div style={{marginLeft:"23%",marginTop:'5%'}}>
      <section>
-
   <div className="row">
-  <div className="col-lg-8">
-    <div className="card wish-list mb-3">
+
+        <div className="card wish-list mb-3">
       <div className="card-body">
-        <h5 className="mb-4">Cart (<span>2</span> items)</h5>
+        <h5 className="mb-4">Cart Items</h5>
         <div className="row mb-4">
           <div className="col-md-5 col-lg-3 col-xl-3">
             <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
@@ -27,10 +36,14 @@ export default class commande extends Component {
             <div>
               <div className="d-flex justify-content-between">
                 <div>
-                  <h5>Blue denim shirt</h5>
+                
+                  <div>
+                  <h5>koigf </h5>
                   <p className="mb-3 text-muted text-uppercase small">Shirt - blue</p>
                   <p className="mb-2 text-muted text-uppercase small">Color: blue</p>
                   <p className="mb-3 text-muted text-uppercase small">Size: M</p>
+                  </div>
+                
                 </div>
                 <div>
                   <div className="def-number-input number-input safari_only mb-0 w-100">
@@ -53,50 +66,11 @@ export default class commande extends Component {
             </div>
           </div>
         </div>
+
         <hr className="mb-4" />
-        <div className="row mb-4">
-          <div className="col-md-5 col-lg-3 col-xl-3">
-            <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-              <img className="img-fluid w-100" src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" alt="Sample" />
-              <a href="#!">
-                <div className="mask waves-effect waves-light">
-                  <img className="img-fluid w-100" src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg" />
-                  <div className="mask rgba-black-slight waves-effect waves-light" />
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-md-7 col-lg-9 col-xl-9">
-            <div>
-              <div className="d-flex justify-content-between">
-                <div>
-                  <h5>Red hoodie</h5>
-                  <p className="mb-3 text-muted text-uppercase small">Shirt - red</p>
-                  <p className="mb-2 text-muted text-uppercase small">Color: red</p>
-                  <p className="mb-3 text-muted text-uppercase small">Size: M</p>
-                </div>
-                <div>
-                  <div className="def-number-input number-input safari_only mb-0 w-100">
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" className="minus" />
-                    <input className="quantity" min={0} name="quantity" defaultValue={1} type="number" />
-                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" className="plus" />
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <a href="#!" type="button" className="card-link-secondary small text-uppercase mr-3"><i className="fas fa-trash-alt mr-1" /> Remove item </a>
-                  <a href="#!" type="button" className="card-link-secondary small text-uppercase"><i className="fas fa-heart mr-1" /> Move to wish list </a>
-                </div>
-                <p className="mb-0"><span><strong>$35.99</strong></span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
+       
       </div>
     </div>
-  
     </div>
 
     
@@ -144,10 +118,17 @@ export default class commande extends Component {
       </div>
     </div>
   </div>
-</div>
-
-    </section>
-    </div>            
-        )
+</section>
+</div>          
+        )   
     }
 }
+
+
+const mapStateToProps=(state)=>{
+  return{
+  cart :state.cartState  
+  }
+  }
+  
+  export default connect(mapStateToProps)(Commande)
