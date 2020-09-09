@@ -69,12 +69,7 @@ class Dashboard extends Component {
                  <span class="menu-title">Category</span>
                </a>
              </li>
-              <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="icon-rocket menu-icon"></i>
-                <span class="menu-title">marque</span>
-              </a>
-            </li>
+
             <li class="nav-item">
                <a class="nav-link" href="/">
                  <i class="icon-rocket menu-icon"></i>

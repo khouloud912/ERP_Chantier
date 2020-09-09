@@ -12,14 +12,17 @@ import {
   FormControl,
   FormControlLabel,
   TextField,
-  Select ,
+  Select,
   input
 
 } from "@material-ui/core";
+//import Select from 'react-select'
+
 import axios from 'axios';
 import { TimePicker, DatePicker } from "@material-ui/pickers";
 
 export default class AddEmployee extends Component {
+  
     constructor(props) {
         super(props);
         this.state = {
@@ -32,8 +35,8 @@ export default class AddEmployee extends Component {
             minimum_quantity: '',
             location:'',
             image:null,
-            category:'',
-            provider:''
+            categories:[{}],
+            providers:[{}]
         };
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeQuantity= this.onChangeQuantity.bind(this);
@@ -102,19 +105,38 @@ export default class AddEmployee extends Component {
       }
       onChangeCategory(e) {
         this.setState({
-            category: e.target.value
+            categories: e.target.value
         }, function () {
-          console.log(this.state.category);
+          console.log(this.state.categories);
       });
       }
       onchangeProvider(e) {
         this.setState({
-            provider: e.target.value
+          providers: e.target.value
         }, function () {
-          console.log(this.state.provider);
+          console.log(this.state.providers);
       });
       }
   componentDidMount(){
+    axios.get("http://localhost:3001/Provider/getAllProviders").then(response => {
+    console.log(response.data);
+    this.setState({
+      providers:response.data
+    })
+  })
+  .catch(e => {
+    console.log(e);
+  });
+
+  axios.get("http://localhost:3001/categorie/getAllCategories").then(response => {
+    this.setState({
+      categories:response.data
+    })
+    console.log(response.data);
+  })
+  .catch(e => {
+    console.log(e);
+  });
   }
   handleSubmit(e){
     e.preventDefault();
@@ -129,8 +151,8 @@ export default class AddEmployee extends Component {
     data.append( "minimum_quantity",this.state.minimum_quantity);
     data.append( "location",this.state.location);
     data.append( "images",this.state.image);
-    data.append( "category",this.state.category);
-    data.append( "provider",this.state.provider );
+    data.append( "category",this.state.categories);
+    data.append( "provider",this.state.providers );
     console.log(data.get("image"))
     const headers = {
         'content-type': 'multipart/form-data'
@@ -144,6 +166,9 @@ export default class AddEmployee extends Component {
      console.log("hawel marra okhra")
  });
 };
+ ReactSelectAdapter = ({ input, ...rest }) => (
+  <Select {...input} {...rest} searchable />
+)
   DatePickerWrapper(props) {
     const {
       input: { name, onChange, value, ...restInput },
@@ -359,36 +384,51 @@ export default class AddEmployee extends Component {
                         )}
                         </Field>
                     </Grid>
+
                     <Grid item xs={6}>
-                    <Field>
-                        {(props) => (
-                          <TextField
+                      <Field>
+                       {(props) => (
+                        <Select
                         fullWidth
                         required
-                        name="Categorie"
-                        type="text"
-                        label="Categorie"
-                        value={this.state.category}
-                        onChange={(e)=>this.onChangeCategory(e)}
-                      />
-                        )}
-                        </Field>
+                        name="category"
+                        label="Select a category"
+                        value={this.state.categories}
+                        onChange={(e)=>this.onChangeCategory(e)}>
+                        {this.state.categories.map((item)=>(
+                        <option value={item.id}>{item.Name}</option>
+                        ))}
+                      </Select>
+                       )}
+                      </Field>
                     </Grid>
+
+
+
+
+
+
                     <Grid item xs={6}>
-                    <Field>
-                        {(props) => (
-                          <TextField                 
+                      <Field>
+                       {(props) => (
+                        <Select
                         fullWidth
                         required
+                        type="select"
                         name="provider"
-                        type="text"
-                        label="provider"
-                        value={this.state.provider}
-                        onChange={(e)=>this.onchangeProvider(e)}
-                      />
-                        )}
-                        </Field>
+                        label="Select a provider"
+                        value={this.state.providers}
+                        onChange={(e)=>this.onchangeProvider(e)}>
+                        {this.state.providers.map((item)=>(
+                        <MenuItem value={item.id}>{item.Name}</MenuItem>
+                        ))}
+                      </Select>
+                       )}
+                      </Field>
                     </Grid>
+                    <div>
+            
+            </div>
                     <Grid item xs={12}>
                     <input
                     name="images"

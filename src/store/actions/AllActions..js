@@ -6,6 +6,7 @@ export const addCart =(id , Articles)=>{
         console.log('adding to cart'); 
         console.log("ArticleId :", id ,"Articles :", Articles)
       return  dispatch({
+          
              type:ADD_PRODUCT_CART,
              payload:{
                  id:id,

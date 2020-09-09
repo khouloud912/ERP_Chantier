@@ -17,7 +17,16 @@ import EditDepartment from './components/departments/editDepartment';
 import EditAbscence from './components/abscences/editAbscence';
 import AddArticle from './components/articles/AddArticle';
 import Articles from './components/articles/Articles';
-import commandes from './components/commande/commande'
+import commandes from './components/commande/commande';
+import AddCategorie from './components/category/AddCategory';
+import AddProvider from './components/provider/AddProvider';
+import AddArticleInput from './components/articles/ArticleInput/AddArticleInput';
+import AddArticleOutput from './components/articles/ArticleOutput/AddArticleOutput';
+import ArticleInput from './components/articles/ArticleInput/ArticleInputs';
+import ArticleOutput from './components/articles/ArticleOutput/ArticleOutputs';
+import categories from './components/category/categories';
+import providers from './components/provider/providers';
+
 import {Provider} from 'react-redux';
 import store from './store/store';
 function App() {
@@ -42,6 +51,14 @@ function App() {
         <Route path='/AddArticle' component={AddArticle}/> 
         <Route path='/Articles' component={Articles}/> 
         <Route path='/commande' component={commandes}/> 
+        <Route path='/AddCategory' component={AddCategorie}/> 
+        <Route path='/AddProvider' component={AddProvider}/> 
+        <Route path='/AddArticleInput' component={AddArticleInput}/> 
+        <Route path='/AddArticleOutput' component={AddArticleOutput}/> 
+        <Route path='/ArticleOutput' component={ArticleOutput}/> 
+        <Route path='/ArticleInput' component={ArticleInput}/> 
+        <Route path='/categories' component={categories}/> 
+        <Route path='/providers' component={providers}/> 
 </div>
 </div></div>
     </div>
