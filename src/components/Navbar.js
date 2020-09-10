@@ -197,7 +197,7 @@ class Navbar extends Component {
                 </li>
                 <li>
                 <a data-toggle="tooltip" data-placement="top" title="Add to Cart"  href="/commande" ><i class="fas fa-shopping-cart mr-3"></i></a>
-        <span class="badge badge-danger">{this.props.cartProps.cartNumbers}</span>
+                <span class="badge badge-danger">{this.props.cartProps.cartNumbers}</span>
                 </li>
                 
               </ul>
@@ -216,7 +216,6 @@ class Navbar extends Component {
         )
     }
 }
-
 const mapStateToProps=state=>({
 cartProps :state.cartState
 

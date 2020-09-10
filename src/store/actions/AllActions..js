@@ -13,7 +13,6 @@ export const addCart =(id , Articles)=>{
                  Articles:Articles
              }
         }) }}
-
 export const removeFromCart = (itemID) => {
     return {
         type: REMOVE_FROM_CART,

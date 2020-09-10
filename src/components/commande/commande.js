@@ -2,9 +2,10 @@
 import React, { useState,useEffect } from 'react';
 import {connect} from 'react-redux'
 
-const Commande = ({cartProps}) => {
-  console.log(cartProps);
-
+const Commande = (props) => {
+  console.log(props);
+  useEffect(() => {console.log(props.cartProps);
+  }, [props.cartProps]);
     return ( 
         <div style={{marginLeft:"23%",marginTop:'5%'}}>
         <section>
@@ -117,6 +118,6 @@ const Commande = ({cartProps}) => {
 }
  const mapStateToProps =state=>({
      cartProps : state.cartState
- })
+     })
 
-export default connect (mapStateToProps)(Commande);
+export default connect (mapStateToProps,null)(Commande);

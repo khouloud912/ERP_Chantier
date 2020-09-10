@@ -17,7 +17,7 @@ import EditDepartment from './components/departments/editDepartment';
 import EditAbscence from './components/abscences/editAbscence';
 import AddArticle from './components/articles/AddArticle';
 import Articles from './components/articles/Articles';
-import commandes from './components/commande/commande';
+import commande from './components/commande/commande';
 import AddCategorie from './components/category/AddCategory';
 import AddProvider from './components/provider/AddProvider';
 import AddArticleInput from './components/articles/ArticleInput/AddArticleInput';
@@ -27,11 +27,9 @@ import ArticleOutput from './components/articles/ArticleOutput/ArticleOutputs';
 import categories from './components/category/categories';
 import providers from './components/provider/providers';
 
-import {Provider} from 'react-redux';
-import store from './store/store';
+
 function App() {
   return (
-    <Provider store={store}>
     <Router>
     <div class="App">
       <Navbar />
@@ -50,7 +48,7 @@ function App() {
         <Route path='/editAbscence/:id' component={EditAbscence}/>  
         <Route path='/AddArticle' component={AddArticle}/> 
         <Route path='/Articles' component={Articles}/> 
-        <Route path='/commande' component={commandes}/> 
+        <Route path='/commande' component={commande}/> 
         <Route path='/AddCategory' component={AddCategorie}/> 
         <Route path='/AddProvider' component={AddProvider}/> 
         <Route path='/AddArticleInput' component={AddArticleInput}/> 
@@ -63,7 +61,7 @@ function App() {
 </div></div>
     </div>
     </Router>
-    </Provider>
+  
   );
 }
 export default App;

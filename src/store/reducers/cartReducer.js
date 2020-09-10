@@ -38,7 +38,6 @@ const cartReducer = (state = initialState, action) => {
                 : [...state.cart, { ...item ,quantity:item.quantity+1 }],
                 }
                 
-
         case GET_NUMBERS_PRODUCT:
             return {...state,
             }
@@ -57,8 +56,8 @@ const cartReducer = (state = initialState, action) => {
                 ...state,
                 cart:state.cart.map(item=>item.id === action.payload.id ?{...item,quantity:action.payload.qty}:item )
             }
-            default:
-            return state;
+            default: 
+            return state
     }
 }
 export default cartReducer;

@@ -2,13 +2,15 @@ import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import axios from 'axios';
 import { Select } from '@material-ui/core';
+import {connect} from 'react-redux';
+import {getNumbers} from '../../../store/actions/getAction';
 
-
-const AddArticleInput  = () => {
+const AddArticleInput  = (props) => {
     const [ArticleInputs, setArticleInputs] = useState({  articleId :'',quantity: '', total_price:'' , });  
     const[articles,setArticle]=useState([]);
 
     useEffect(() => {
+        getNumbers()
         axios.get("http://localhost:3001/Article/getAllArticles").then(response => {
             setArticle(response.data);
             console.log(response.data);
@@ -69,4 +71,9 @@ const AddArticleInput  = () => {
 </div>
      );
 }
-export default AddArticleInput;
+
+const mapStateToProps =state=>({
+    cartProps : state.cartState
+    })
+
+ export default connect(mapStateToProps, {getNumbers})(AddArticleInput);
