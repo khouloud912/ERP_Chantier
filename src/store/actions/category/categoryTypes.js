@@ -1,0 +1,3 @@
+export const GET_CATEGORY="GET_CATEGORY"
+export const DELETE_CATEGORY="DELETE_CATEGORY"
+

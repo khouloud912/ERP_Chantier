@@ -1,53 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import {getAbscences,deleteAbscence} from '../../store/actions/abscence/abscenceActions';
+import {connect} from 'react-redux';
 
-export default class abscence extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            Abscences:[{}],
-            first_name:'',
-            last_name:'',
-            current_position:'',
-            AllEmployees:[{}]
-        };
-        this.componentDidMount=this.componentDidMount.bind(this);
-      }
-    componentDidMount() {
-        return axios.get('http://localhost:3001/Abscence/getAllAbscence').then((response)=>{
-        console.log(response.data);
-        this.setState({
-        Abscences:response.data})
-        });
-    }
-    AddLeave(){
-      this.props.history.push('/addAbscence');
-    }
-    EditAbscence(id,e){
-      this.props.history.push('/editAbscence/'+id);
-    }
-    getName(id) {
-         axios.get('http://localhost:3001/Employee/getEmployee/'+id).then((response)=>{
-      //  console.log(response.data);
-        this.setState({
-            first_name:response.data.first_name,
-            last_name:response.data.last_name,
-            current_position:response.data.current_position,   
-        })
-    })
-    // console.log(id);
-    }
-    deleteRow(id, e){
-      axios.delete(`http://localhost:3001/Abscence/deleteAbscence/${id}`)
-        .then(res => {
-          console.log(res);
-          console.log(res.data);
-          console.log("deleted successfully")
-        })
-      }
-    render(){
-    return (
-   <div style={{ marginTop: "4%" , marginLeft:"24%" , width:"1000px"}}>
+const Abscence = (props) => {
+  const [data, setData] = useState([]);  
+  const [oneEmployee, setoneEmployee] = useState([]);  
+
+    useEffect(() => { 
+      console.log(props)
+      props.getAbscences();
+  setData(props.AbscenceProps.abscences)
+}, []); 
+
+const getName=(id)=> {
+  axios.get('http://localhost:3001/Employee/getEmployee/'+id).then((response)=>{
+//  console.log(response.data);
+   setoneEmployee(response.data)
+   console.log(oneEmployee);
+})
+}
+  const AddLeave=()=>{
+    props.history.push('/addAbscence');
+  }
+  const EditAbscence=(id)=>{
+    props.history.push('/editAbscence/'+id);
+  }
+
+  return (  
+    <div style={{ marginTop: "4%" , marginLeft:"24%" , width:"1000px"}}>
     {/* Page Content */}
     <div className="content container-fluid">
       {/* Page Header */}
@@ -61,7 +42,7 @@ export default class abscence extends Component {
             </ul>
           </div>
           <div className="col-auto float-right ml-auto">
-            <a href="#" className="btn add-btn" data-toggle="modal" data-target="#add_leave" onClick={() =>this.AddLeave()}><i className="fa fa-plus" /> Add Leave</a>
+            <a href="#" className="btn add-btn" data-toggle="modal" data-target="#add_leave" onClick={AddLeave}><i className="fa fa-plus" /> Add Leave</a>
           </div>
         </div>
       </div>
@@ -143,12 +124,12 @@ export default class abscence extends Component {
                 </tr>
               </thead>
               <tbody>
-              {this.state.Abscences.map((Abscence) =>(
+              {data.map((Abscence) =>(
                   <tr>
                   <td>
-                  {this.getName(Abscence.employeeId)}   
+                  {getName(Abscence.employeeId)}   
                     <h2 className="table-avatar">
-              <a href="#">{this.state.last_name} {this.state.first_name} <span>{this.state.current_position}</span></a>
+              <a href="#">{oneEmployee.last_name} {oneEmployee.first_name} <span>{oneEmployee.current_position}</span></a>
                     </h2>
                   </td>
                   <td>{Abscence.type_of_leave}</td>
@@ -158,8 +139,8 @@ export default class abscence extends Component {
                   <td>
                   <span class="table-remove">
                 <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0" onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
-                this.deleteRow(Abscence.id, e)} >Remove</button>
-                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" onClick={() =>this.EditAbscence(Abscence.id)}>edit </button>
+                props.deleteAbscence(Abscence.id) }>Remove</button>
+                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" onClick={() =>EditAbscence(Abscence.id)}>edit </button>
                   </span>
                   </td>
                 </tr>
@@ -173,7 +154,13 @@ export default class abscence extends Component {
     {/* /Page Content */}
     {/* Add Leave Modal */}    
   </div>          
-        )
-    }
 
+  );
 }
+ 
+const mapStateToProps=(state)=>({
+  AbscenceProps :state.AbscenceState
+  })
+  
+  export default connect(mapStateToProps, {getAbscences,deleteAbscence})(Abscence)
+  

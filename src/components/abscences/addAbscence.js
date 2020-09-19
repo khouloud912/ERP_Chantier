@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Select from 'react-select';
+import {addProvider} from '../../store/actions/provider/providerActions';
+import {connect} from 'react-redux';
 
-export default class addAbscence extends Component {
+ export default class addAbscence extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,15 +72,18 @@ export default class addAbscence extends Component {
       });
   }
   componentDidMount(){
+    
     return axios.get("http://localhost:3001/Employee/getAllEmployee").then((response)=>{
             console.log(response.data);
             this.setState({
-              AllEmployees:response.data
+              AllEmployees:response.data.map( option => ({ value: option.id, label: option.first_name+ ' '+option.last_name }))
             })
      })
   }
     render() {
+  
         return (
+          <div>
             <div style={{ marginTop: "4%" , marginLeft:"24%" }}>              
         <div className="modal-content">
           <div className="modal-header">
@@ -123,11 +129,12 @@ export default class addAbscence extends Component {
               </div>
               <div className="form-group">
                 <label>Employee Name<span className="text-danger">*</span></label>
-                <select  value={this.state.employeeId} onChange={(e)=>this.onChangeEmployeeID(e)}>
-                {this.state.AllEmployees.map((employee)=>
-                  <option  value={employee.id}>{employee.first_name} {employee.last_name}</option>
-                  )}     
-                </select>     
+                <Select
+                  name="form-field-name"
+                  value={this.state.employeeId}
+                  options={this.state.AllEmployees}
+                  onChange={e => this.setState({employeeId: e.value})}
+              />                
               </div>
               <div>
                 <input type="submit"/ >
@@ -136,6 +143,30 @@ export default class addAbscence extends Component {
           </div>
         </div>
       </div>  
+      </div>
         )
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,8 +1,12 @@
-
 import React, { Component } from "react";
 import { Form, Field } from "react-final-form";
-import { Radio, Select } from "final-form-material-ui";
+import Select from 'react-select';
+
+import { Radio } from "final-form-material-ui";
 import Moment from 'moment';
+import {putEmployee} from '../../store/actions/employee/employeeActions';
+import {connect} from 'react-redux';
+import {getDepartment} from '../../store/actions/departments/departmentAction';
 
 import {
   Paper,
@@ -19,7 +23,7 @@ import {
 import axios from 'axios';
 import { TimePicker, DatePicker } from "@material-ui/pickers";
 
-export default class modifyEmployee extends Component {
+ class modifyEmployee extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,6 +39,7 @@ export default class modifyEmployee extends Component {
       hiring_date: "",
       salary: "",
       office: "",
+      departementId:'',
       AllDepartment:[{}]
     };
     this.handleChange = this.handleChange.bind(this);
@@ -110,13 +115,8 @@ export default class modifyEmployee extends Component {
   
   handleSubmitModification = (e) => {
     const id = this.props.match.params.id;
-
     e.preventDefault();
-    //console.log(this.state.first_name);
-  //  alert("A name was submitted: " + this.state.first_name);
-
-  console.log(this.state.first_name ,this.state.phone_number , this.state.school_level , this.state.current_position ) 
-   axios.put('http://localhost:3001/Employee/UpdateEmployee/'+id,{
+  const data={
     first_name: this.state.first_name,
     last_name :this.state.last_name,
     office:this.state.office,
@@ -128,26 +128,21 @@ export default class modifyEmployee extends Component {
     postal_adress:this.state.postal_adress,
     gender:this.state.gender,
     phone_number:this.state.phone_number,
-    date_of_birth:this.state.date_of_birth
+    date_of_birth:this.state.date_of_birth,
+    departementId:this.state.departementId
   }
-   )
-      .then((res) => {
-          console.log(res.data)
-          console.log("updated success")
-      }).catch((error) => {
-          console.log(error)
-          console.log("an error occured")
-      });
+  console.log(data);
+  this.props.putEmployee(id,data)
   };
   componentDidMount(){
-     axios.get("http://localhost:3001/Departement/getAlldepartement").then((response)=>{
-            console.log(response.data);
-            this.setState({
-              AllDepartment:response.data
-            })
-     })
+    this.props.getDepartment();
+    this.setState({
+      AllDepartment:this.props.DepartmentProps.departments.map( option => ({ value: option.id, label: option.departement_name }))
+    })
+
     const id = this.props.match.params.id;
     console.log(this.id);
+
     return axios.get('http://localhost:3001/Employee/getEmployee/'+id).then((response)=>{
     console.log(response.data);
     this.setState({
@@ -444,17 +439,20 @@ export default class modifyEmployee extends Component {
                         </Field>
                     </Grid>
                     <Grid item xs={6}>
-                      <Field
-                        fullWidth
-                        name="department"
-                        component={Select}
-                        label="Select a department"
-                        formControlProps={{ fullWidth: true }}
-                      >
-                        {this.state.AllDepartment.map((department)=>(
-                        <MenuItem value={department.id}>{department.departement_name}</MenuItem>
-                        ))}
-                      </Field>
+                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
+                    Select a department
+                   </label> 
+                    <Field
+                      name="DepartmentId"
+                      label="select a Department"
+                      value={this.state.departementId}
+                      options={this.state.AllDepartment}
+                      onChange={e =>{   
+                        console.log(e)                 
+                        this.setState({departementId: e.value})}}
+                      component={({ input, ...rest }) => (
+                        <Select {...input} {...rest} searchable />)}
+                    />
                     </Grid>
                     <Grid item xs={6}>
                       <Field>
@@ -499,3 +497,11 @@ export default class modifyEmployee extends Component {
     );
   }
 }
+
+const mapStateToProps =state=>({
+  EmployeeProps:state.EmployeeState,
+  DepartmentProps:state.DepartmentState
+
+  })
+
+export default connect(mapStateToProps, {putEmployee,getDepartment})(modifyEmployee);

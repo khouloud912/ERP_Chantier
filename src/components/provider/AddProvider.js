@@ -1,11 +1,10 @@
 import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import axios from 'axios';
+import {addProvider} from '../../store/actions/provider/providerActions';
+import {connect} from 'react-redux';
 
-
-const AddProvider  = () => {
+const AddProvider  = (props) => {
     const [providers, setProvider] = useState({ Name: '', adress: '', postal_code:'',city:'',country:'',phone:'',email:'' });  
-    const apiUrl = "http://localhost:3001/Provider/addProvider";  
 
     const onChange = (e) => {  
         setProvider({ ...providers, [e.target.name]: e.target.value });
@@ -15,9 +14,7 @@ const AddProvider  = () => {
                 e.preventDefault();  
                 console.log(e)
                 const data = { Name:providers.Name, adress: providers.adress , postal_code:providers.postal_code,city:providers.city,country:providers.country,phone:providers.phone,email:providers.email };  
-                axios.post(apiUrl, data)  .then((result) => {  
-                    console.log(result.data);            
-                  });  
+                props.addProvider(data)
               };  
     return ( 
         <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
@@ -71,4 +68,8 @@ const AddProvider  = () => {
 </div>
      );
 }
-export default AddProvider;
+const mapStateToProps =state=>({
+    ProviderProps:state.providerState
+    })
+
+ export default connect(mapStateToProps, {addProvider})(AddProvider);

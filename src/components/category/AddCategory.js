@@ -1,23 +1,19 @@
 import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import axios from 'axios'
+import axios from 'axios';
+import {addCategory} from '../../store/actions/category/categoryAction';
+import {connect} from 'react-redux';
 
-
-const AddCategorie  = () => {
+const AddCategorie  = (props) => {
     const [categories, setCategory] = useState({ Name_categorie: '', description: '' });  
-    const apiUrl = "http://localhost:3001/categorie/addCategorie";  
-
     const onChange = (e) => {  
         setCategory({ ...categories, [e.target.name]: e.target.value });
           } 
     const InsertCategory = (e) => {  
-                console.log("koki");
                 e.preventDefault();  
-                console.log(e)
+                
                 const data = { Name_categorie:categories.Name_categorie, description: categories.description };  
-                axios.post(apiUrl, data)  .then((result) => {  
-                    console.log(result.data);            
-                  });  
+                props.addCategory(data)
     
               };  
     return ( 
@@ -48,4 +44,8 @@ const AddCategorie  = () => {
      );
 }
  
-export default AddCategorie;
+const mapStateToProps=(state)=>({
+    categoryProps :state.CategoryState
+    })
+    
+    export default connect(mapStateToProps, {addCategory})(AddCategorie)

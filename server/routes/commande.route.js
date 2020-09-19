@@ -1,0 +1,10 @@
+const express= require("express");
+const Router = express.Router();
+const t = require('../controllers/commande.controller');
+Router.get('/getAllCommande', t.findAllCommande ) ;
+Router.get('/getCommande/:id',t.findOne);
+Router.delete('/deleteCommande/:id',t.delete);
+Router.delete('/deleteAll',t.deleteAll);
+Router.post('/addCommande',t.create);
+Router.put('/UpdateCommande/:id',t.updateCommande);
+module.exports=Router;

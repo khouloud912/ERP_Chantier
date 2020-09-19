@@ -3,7 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-export default class addAbscence extends Component {
+ export default class addAbscence extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +32,6 @@ export default class addAbscence extends Component {
   }
   onChangeReturnDate(e) {
     console.log(e.target.value);
-
     this.setState({ return_date: e.target.value })
   }
   onChangeleaveRemaining(e) {

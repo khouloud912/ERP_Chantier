@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import axios from 'axios';
 import Moment from 'moment';
+import {putDepartment} from '../../store/actions/departments/departmentAction';
+import {connect} from 'react-redux';
 
 
-export default class editDepartment extends Component {
+ class editDepartment extends Component {
 
     constructor(props) {
         super(props);        
@@ -63,21 +65,14 @@ export default class editDepartment extends Component {
         e.preventDefault();
         console.log(this.state.departement_name);
         const id = this.props.match.params.id;
-     axios.put('http://localhost:3001/Departement/UpdateDepartement/'+id,{
-   departement_name: this.state.departement_name,
-   sub_departement :this.state.sub_departement,
-   main_operation:this.state.main_operation,
-   description:this.state.description,
-   departement_status:this.state.hiring_date,
- }
-  )
-     .then((res) => {
-         console.log(res.data)
-         console.log("success")
-     }).catch((error) => {
-         console.log(error)
-         console.log("hawel marra okhra")
-     });
+        const data={
+          departement_name: this.state.departement_name,
+          sub_departement :this.state.sub_departement,
+          main_operation:this.state.main_operation,
+          description:this.state.description,
+          departement_status:this.state.hiring_date,
+        }
+        this.props.putDepartment(id,data)
  };
     
      render() {
@@ -108,6 +103,9 @@ export default class editDepartment extends Component {
                 </label>
                 <input type="text" id="defaultFormRegisterConfirmEx" className="form-control" value={this.state.main_operation} onChange={(e)=>{this.onChangeMainOperation(e)}} />
                  <br/>
+                 <label htmlFor="defaultFormRegisterConfirmEx" className="grey-text">
+                  Department Status
+                </label>
                 <select className="form-control"  value={this.state.sub_departement} onChange={(e)=>{this.onChangeSubDepartment(e)}}>
                     <option value="" disabled selected>Choose your option</option>
                     <option value="valide">valide</option>
@@ -125,3 +123,8 @@ export default class editDepartment extends Component {
     }
 
 }
+const mapStateToProps =state=>({
+  DepartmentProps:state.DepartmentState
+  })
+
+export default connect(mapStateToProps, {putDepartment})(editDepartment);

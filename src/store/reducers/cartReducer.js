@@ -1,15 +1,15 @@
-import { ADD_PRODUCT_CART ,GET_NUMBERS_PRODUCT ,ADJUST_ITEM_QTY,REMOVE_FROM_CART ,GET_CART} from "../actions/types";
+import { ADD_PRODUCT_CART ,GET_NUMBERS_PRODUCT ,ADJUST_ITEM_QTY,REMOVE_FROM_CART ,GET_CART ,INCREASE_QUANTITY ,DECREASE_QUANTITY} from "../actions/types";
 import Articles from "../../components/articles/Articles";
 import { act } from "react-dom/test-utils";
 const initialState={
     cartNumbers : 0,
     products:[{}],
-    cart:[]
+    cart:[],
+    articles:[{}]
 }
 const cartReducer = (state = initialState, action) => {
     // console.log(state,action)
     switch(action.type){
-        
         case ADD_PRODUCT_CART:
              state.products=action.payload.Articles;
              console.log(state.products);
@@ -25,7 +25,7 @@ const cartReducer = (state = initialState, action) => {
         }
       return {
                 ...state,
-                cartNumbers:state.cartNumbers + 1,
+              //  cartNumbers:state.cartNumbers + 1,
                 products:{
                     ...state.products,
                 },
@@ -54,7 +54,7 @@ const cartReducer = (state = initialState, action) => {
         case ADJUST_ITEM_QTY:
             return {
                 ...state,
-                cart:state.cart.map(item=>item.id === action.payload.id ?{...item,quantity:action.payload.qty}:item )
+                cart:state.cart.map(item=>item.id === action.payload.id ?{...item,quantity:+action.payload.qty}:item )
             }
             default: 
             return state

@@ -1,44 +1,30 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-export default class Department extends Component {
-  constructor() {
-    super();
-    this.state = {
-      AllDepartment:[{}],
-    }
-    this.componentDidMount=this.componentDidMount.bind(this);
+import React, { useState,useEffect } from 'react';
+import {getDepartment,deleteDepartment} from '../../store/actions/departments/departmentAction';
+import {connect} from 'react-redux';
+
+
+const Department = (props) => {
+  const [data, setData] = useState([]);  
+  useEffect(() => { 
+    props.getDepartment();
+    console.log(props.departmentProps.departments)
+    
+    setData(props.departmentProps.departments)
+  }, []); 
+  const AddDepartment =()=>{
+    props.history.push('/addDepartment');  }
+  const EditDepartment=(id)=>{
+    props.history.push('/editDepartment/'+id);
   }
-  componentDidMount() {
-    return axios.get("http://localhost:3001/Departement/getAlldepartement").then((response)=>{
-      console.log(response.data);
-      this.setState({
-        AllDepartment:response.data
-      })
-    })
-  }
-  deleteRow(id, e){
-    axios.delete("http://localhost:3001/Departement/deleteDepartement/"+id)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-        console.log("deleted successfully")
-      })
-    }
-    EditDepartment(id){
-      this.props.history.push('/editDepartment/'+id);
-    }
-  AddEmployee(){
-    this.props.history.push('/addDepartment');
-  }
-  render() {
-    return (
-      <div>
+  
+  return ( 
+    <div>
   <div class="card" style={{ marginTop: "4%" , marginLeft:"24%" , width:"1000px"}}>
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Departments</h3>
   <div class="card-body">
       <div id="table" class="table-editable">
         <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
-              class="fas fa-plus fa-2x" aria-hidden="true" onClick={() => this.AddEmployee()}></i></a></span>
+              class="fas fa-plus fa-2x" aria-hidden="true" onClick={AddDepartment}></i></a></span>
         <table class="table table-bordered table-responsive-md table-striped text-center">
         <div>
           <thead>
@@ -52,7 +38,7 @@ export default class Department extends Component {
             </tr>
           </thead>
           <tbody>
-          {this.state.AllDepartment.map((department) =>(
+          {data.map((department) =>(
             <tr>
           <td class="pt-3-half" contenteditable="true">{department.departement_name}</td>
           <td class="pt-3-half" contenteditable="true">{department.sub_departement}</td>
@@ -62,9 +48,9 @@ export default class Department extends Component {
               <td>
                 <span class="table-remove">
                   <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
-                this.deleteRow(department.id, e)} 
+                props.deleteDepartment(department.id)} 
                    >Remove</button>
-                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" onClick={() =>this.EditDepartment(department.id)} >edit </button>
+                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" onClick={() =>EditDepartment(department.id)} >edit </button>
                     </span>
               </td>
             </tr>
@@ -76,6 +62,11 @@ export default class Department extends Component {
     </div> 
   </div>
   </div>
-    )
-  }
+   );
 }
+ 
+const mapStateToProps=(state)=>({
+  departmentProps :state.DepartmentState
+  }) 
+  export default connect(mapStateToProps, {getDepartment,deleteDepartment})(Department)
+ 

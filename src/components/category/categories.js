@@ -1,27 +1,18 @@
 import React, { useState,useEffect } from 'react';
-import axios from 'axios';
-import moment from 'moment';
 import AddCategorie from './AddCategory';
+import {getCategories,deleteCategory} from '../../store/actions/category/categoryAction';
+import {connect} from 'react-redux';
 
 
 const Categories = (props) => {
     const [data, setData] = useState([]);  
 useEffect(() => {  
-  
-  axios.get("http://localhost:3001/categorie/getAllCategories").then(response => {
-    setData(response.data);
-    console.log(response.data);
-  })
-  .catch(e => {
-    console.log(e);
-  });
+  props.getCategories();
+  console.log(props.categoryProps.categories);
+  setData(props.categoryProps.categories)
+
 }, []); 
-const deleteCategory = (id) => {  
-      axios.delete(`http://localhost:3001/categorie/deleteCategorie/${id}`)  
-        .then((result) => {  
-          console.log("deleted succesffully")
-        });  
-    };  
+
 const AddCategory =()=>{
   props.history.push('/AddCategory')  ;
 }
@@ -49,7 +40,7 @@ const AddCategory =()=>{
                     <td>
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
-                      deleteCategory(item.id)} 
+                          props.deleteCategory(item.id) } 
                          >Remove</button>
                       <button type="button" class="btn btn-info btn-rounded btn-sm my-0" >edit </button>
                           </span>
@@ -65,4 +56,8 @@ const AddCategory =()=>{
         </div>
     );
 }
-export default Categories;
+const mapStateToProps=(state)=>({
+  categoryProps :state.CategoryState
+  })
+  
+  export default connect(mapStateToProps, {getCategories,deleteCategory})(Categories)

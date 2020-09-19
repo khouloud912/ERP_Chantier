@@ -6,3 +6,5 @@
 [0827/210316.750:ERROR:process_reader_win.cc(155)] SuspendThread: Accès refusé. (0x5)
 [0827/210316.750:ERROR:process_reader_win.cc(155)] SuspendThread: Accès refusé. (0x5)
 [0827/210316.750:ERROR:exception_snapshot_win.cc(99)] thread ID 17588 not found in process
+[0912/233644.939:ERROR:process_reader_win.cc(127)] NtOpenThread: {Accès refusé} Un processus a demandé l’accès a un objet, mais il ne bénéficie pas des autorisations nécessaires. (0xc0000022)
+[0912/233646.328:ERROR:exception_snapshot_win.cc(100)] thread ID 28124 not found in process

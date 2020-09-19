@@ -1,0 +1,10 @@
+const express= require("express");
+const Router = express.Router();
+const t = require('../controllers/marque.controller');
+Router.get('/getAllMarque', t.findAllMarques ) ;
+Router.get('/getMarque/:id',t.findOne);
+Router.delete('/deleteMarque/:id',t.delete);
+Router.delete('/deleteAll',t.deleteAll);
+Router.post('/addMarque',t.create);
+Router.put('/UpdateMarque/:id',t.updateMarque);
+module.exports=Router;

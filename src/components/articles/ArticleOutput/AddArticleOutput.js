@@ -1,21 +1,23 @@
 import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
+import {getAllArticles, addArticleOutput} from '../../../store/actions/article/AllArticleActions'
+import Select from "react-select";
+import {connect} from 'react-redux';
+
 import axios from 'axios';
 
 
-const AddArticleOutput  = () => {
+const AddArticleOutput  = (props) => {
     const [ArticleOutputs, setArticleOutputs] = useState({ articleId: '', quantity: '',  totally_price:''});  
     const apiUrl = "http://localhost:3001/ArticleOutput/addArticleOutput";  
     const[articles,setArticle]=useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:3001/Article/getAllArticles").then(response => {
-            setArticle(response.data);
-            console.log(response.data);
-        })
-        .catch(e => {
-            console.log(e);
-        });        
+        getAllArticles();
+        console.log(props.ArticleProps)
+        setArticle(props.ArticleProps.AllArticles.map( option => ({ value: option.id, label: option.Name })))
+        let options =   props.ArticleProps.AllArticles.map( option => ({ value: option.id, label: option.Name }))
+        console.log(options) 
     }, [])
     
     const onChange = (e) => {  
@@ -25,12 +27,11 @@ const AddArticleOutput  = () => {
     const InsertArticleOutputs = (e) => {  
                 e.preventDefault();  
                 console.log(e)
-                const data = {  quantity: ArticleOutputs.quantity ,totally_price:ArticleOutputs.totally_price,  };  
+                const data = {articleId:ArticleOutputs.articleId,  quantity: ArticleOutputs.quantity ,totally_price:ArticleOutputs.totally_price,  };  
                 console.log(data)
-                axios.post(apiUrl, data).then((result) => {  
-                    console.log(result.data);            
-                  });  
-              };  
+                props.addArticleOutput(data)
+               
+              }; 
     return ( 
         <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
         <MDBContainer>
@@ -41,13 +42,15 @@ const AddArticleOutput  = () => {
                 <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
                     Article Name
                 </label> 
-                <select   
-                 onChange={onChange}
-                    className="browser-default custom-select">
-                    {articles.map((item)=>(
-                    <option  value={item.id}>{item.Name}</option>
-                    ))}
-                </select>
+                <Select
+                  name="articleId"
+                  value={ArticleOutputs.articleId}
+                  options={articles}
+                  onChange={e =>{
+                    console.log(e)
+                   setArticleOutputs({articleId: e.value})}}
+                 />
+              
                 <br />
                 <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                   quantity
@@ -69,4 +72,9 @@ const AddArticleOutput  = () => {
 </div>
      );
 }
-export default AddArticleOutput;
+
+const mapStateToProps =state=>({
+    ArticleProps:state.ArticleState
+    })
+
+ export default connect(mapStateToProps, {getAllArticles ,addArticleOutput})(AddArticleOutput);

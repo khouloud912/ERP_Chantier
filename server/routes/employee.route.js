@@ -1,0 +1,10 @@
+const express= require("express");
+const Router = express.Router();
+const t = require('../controllers/employee.controller');
+Router.post('/addEmployee',t.create);
+Router.put('/UpdateEmployee/:id',t.update);
+Router.get('/getAllEmployee', t.findAllEmployee);
+Router.get('/getEmployee/:id',t.findOne);
+Router.delete('/deleteEmployee/:id',t.delete);
+Router.delete('/deleteEmployee',t.deleteAll);
+module.exports=Router;

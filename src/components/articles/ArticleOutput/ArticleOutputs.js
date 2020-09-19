@@ -1,26 +1,19 @@
 import React, { useState,useEffect } from 'react';
+import {getAllArticlesOutputs , deleteArticleOutput} from '../../../store/actions/article/AllArticleActions';
 import axios from 'axios';
+import {connect} from 'react-redux';
 import moment from 'moment';
 
 
 const ArticleOutputs = (props) => {
     const [data, setData] = useState([]);  
 useEffect(() => {  
-  console.log("koki");
-  axios.get("http://localhost:3001/ArticleOutput/getAllArticleOutput").then(response => {
-    setData(response.data);
-    console.log(response.data);
-  })
-  .catch(e => {
-    console.log(e);
-  });
+  console.log(props)
+  props.getAllArticlesOutputs();
+  console.log(props.ArticleProps.ArticleOutput)
+  setData(props.ArticleProps.ArticleOutput)
 }, []); 
-const deleteArticleOutput = (id) => {  
-      axios.delete(`http://localhost:3001/ArticleOutput/deleteArticleOutput/${id}`)  
-        .then((result) => {  
-          console.log("deleted succesffully")
-        });  
-    };  
+
 const AddArticleOutput =()=>{
   props.history.push('/AddArticleOutput')  ;
 }
@@ -52,7 +45,7 @@ const AddArticleOutput =()=>{
                     <td>
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
-                      deleteArticleOutput(item.id)} 
+                      props.deleteArticleOutput(item.id)} 
                          >Remove</button>
                       <button type="button" class="btn btn-info btn-rounded btn-sm my-0" >edit </button>
                           </span>
@@ -66,8 +59,10 @@ const AddArticleOutput =()=>{
           </div> 
         </div>
         </div>
-
     );
 }
  
-export default ArticleOutputs;
+const mapStateToProps=(state)=>({
+  ArticleProps :state.ArticleState
+  })
+export default connect(mapStateToProps , {getAllArticlesOutputs,deleteArticleOutput})(ArticleOutputs);

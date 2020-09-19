@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Form, Field } from "react-final-form";
 import { Radio} from "final-form-material-ui";
+import Select from 'react-select';
+import {addEmployee} from '../../store/actions/employee/employeeActions';
+import {connect} from 'react-redux';
 import {
   Paper,
   Grid,
@@ -11,13 +14,12 @@ import {
   MenuItem,
   FormControl,
   FormControlLabel,
-  TextField,
-  Select
+  TextField
 } from "@material-ui/core";
 import axios from 'axios';
 import { TimePicker, DatePicker } from "@material-ui/pickers";
 
-export default class AddEmployee extends Component {
+ class AddEmployee extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,7 +118,7 @@ export default class AddEmployee extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
   console.log(this.state.first_name ,this.state.phone_number ,this.state.school_level , this.state.current_position ) 
-   axios.post('http://localhost:3001/Employee/addEmployee',{
+  const newEmployee={
     first_name: this.state.first_name,
     last_name :this.state.last_name,
     office:this.state.office,
@@ -131,23 +133,18 @@ export default class AddEmployee extends Component {
     departementId:this.state.DepartmentID,
     date_of_birth:this.state.date_of_birth
   }
-   )
-      .then((res) => {
-          console.log(res.data)
-          console.log("success")
-      }).catch((error) => {
-          console.log(error)
-          console.log("hawel marra okhra")
-      });
+   this.props.addEmployee(newEmployee)
   };
   componentDidMount(){
     return axios.get("http://localhost:3001/Departement/getAlldepartement").then((response)=>{
             console.log(response.data);
             this.setState({
-              AllDepartment:response.data
+              AllDepartment:response.data.map( option => ({ value: option.id, label: option.departement_name }))
             })
+            console.log(this.state.AllDepartment)
      })
   }
+
   DatePickerWrapper(props) {
     const {
       input: { name, onChange, value, ...restInput },
@@ -158,6 +155,7 @@ export default class AddEmployee extends Component {
       ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
       meta.touched;
     return (
+      
       <DatePicker
         {...rest}
         name={name}
@@ -302,7 +300,7 @@ export default class AddEmployee extends Component {
                         )}
                         </Field>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={6}>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Gender</FormLabel>
                         <RadioGroup row
@@ -426,24 +424,6 @@ export default class AddEmployee extends Component {
                     </Grid>
                     <Grid item xs={6}>
                       <Field>
-                       {(props) => (
-                        <Select
-                        fullWidth
-                        required
-                        name="department"
-                        label="Select a department"
-                        formControlProps={{ fullWidth: true }}
-                        value={this.state.DepartmentID}
-                        onChange={(e)=>this.onchangeDepartmentID(e)}>
-                        {this.state.AllDepartment.map((department)=>(
-                        <MenuItem value={department.id}>{department.departement_name}</MenuItem>
-                        ))}
-                      </Select>
-                       )}
-                      </Field>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Field>
                         {(props) => (
                           <TextField
                             fullWidth
@@ -457,6 +437,24 @@ export default class AddEmployee extends Component {
                         )}
                       </Field>
                     </Grid>
+
+                    <Grid item xs={12}>
+                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
+                    Select a department
+                   </label> 
+                    <Field
+                      name="DepartmentId"
+                      label="select a Department"
+                      value={this.state.DepartmentID}
+                      options={this.state.AllDepartment}
+                      onChange={e =>{   
+                        console.log(e)                 
+                        this.setState({DepartmentID: e.value})}}
+                      component={({ input, ...rest }) => (
+                        <Select {...input} {...rest} searchable />)}
+                    />
+                    </Grid>
+
                     <Grid item style={{ marginTop:16 }}>
                       <Button
                         type="button"
@@ -474,7 +472,6 @@ export default class AddEmployee extends Component {
                         color="primary"
                         disabled={submitting}
                       />
-                      
                     </Grid>
                   </Grid>
                 </Paper>
@@ -486,3 +483,11 @@ export default class AddEmployee extends Component {
     );
   }
 }
+const mapStateToProps =state=>({
+  employeeProps:state.EmployeeState
+  })
+
+export default connect(mapStateToProps, {addEmployee})(AddEmployee);
+
+
+

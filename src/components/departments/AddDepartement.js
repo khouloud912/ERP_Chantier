@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import axios from 'axios';
+import {addDepartment} from '../../store/actions/departments/departmentAction';
+import {connect} from 'react-redux';
 
-export default class AddDepartement extends Component {
+ class AddDepartement extends Component {
 
     constructor(props) {
         super(props);        
         this.state = {
-            departement_name:'',
+           departement_name:'',
             sub_departement:'',
             departement_status:'',
             main_operation:'',
@@ -45,26 +46,15 @@ export default class AddDepartement extends Component {
       onSubmit(e){
         e.preventDefault();
         console.log(this.state.departement_name);
-
-     axios.post('http://localhost:3001/Departement/addDepartement',{
-   departement_name: this.state.departement_name,
-   sub_departement :this.state.sub_departement,
-   main_operation:this.state.main_operation,
-   description:this.state.description,
-   departement_status:this.state.hiring_date,
- }
-  )
-     .then((res) => {
-         console.log(res.data)
-         console.log("success")
-     }).catch((error) => {
-         console.log(error)
-         console.log("hawel marra okhra")
-     });
+        const data={
+            departement_name: this.state.departement_name,
+            sub_departement :this.state.sub_departement,
+            main_operation:this.state.main_operation,
+            description:this.state.description,
+            departement_status:this.state.hiring_date,
+        }
+        this.props.addDepartment(data)
  };
-
-
-      
      render() {
         return (
             <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
@@ -110,3 +100,13 @@ export default class AddDepartement extends Component {
     }
 
 }
+
+
+const mapStateToProps =state=>({
+    DepartmentProps:state.DepartmentState
+    })
+
+ export default connect(mapStateToProps, {addDepartment})(AddDepartement);
+
+
+

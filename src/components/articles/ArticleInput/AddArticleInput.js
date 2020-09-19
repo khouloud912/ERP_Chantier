@@ -1,9 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
-import axios from 'axios';
-import { Select } from '@material-ui/core';
 import {connect} from 'react-redux';
 import {getNumbers} from '../../../store/actions/getAction';
+import {getAllArticles,addArticleInput} from '../../../store/actions/article/AllArticleActions'
+import Select from "react-select";
 
 const AddArticleInput  = (props) => {
     const [ArticleInputs, setArticleInputs] = useState({  articleId :'',quantity: '', total_price:'' , });  
@@ -11,27 +11,23 @@ const AddArticleInput  = (props) => {
 
     useEffect(() => {
         getNumbers()
-        axios.get("http://localhost:3001/Article/getAllArticles").then(response => {
-            setArticle(response.data);
-            console.log(response.data);
-        })
-        .catch(e => {
-            console.log(e);
-        });        
+        getAllArticles()
+        setArticle(props.ArticleProps.AllArticles.map( option => ({ value: option.id, label: option.Name })))
+        let options =   props.ArticleProps.AllArticles.map( option => ({ value: option.id, label: option.Name }))
+        console.log(options)
     }, [])
-    
-    const apiUrl = "http://localhost:3001/ArticleInput/addArticleInput";  
+
     const onChange = (e) => {  
-        setArticleInputs({ ...ArticleInputs, [e.target.name]: e.target.value });
-          } 
+
+        setArticleInputs({ ...ArticleInputs, 
+            [e.target.name]: e.target.value });
+          }        
     const InsertArticleInputs = (e) => {  
                 e.preventDefault();  
                 console.log(e)
-                const data = { total_price:ArticleInputs.total_price, quantity: ArticleInputs.quantity };  
+                const data = { articleId:ArticleInputs.articleId, total_price:ArticleInputs.total_price, quantity: ArticleInputs.quantity };  
                 console.log(data)
-                axios.post("http://localhost:3001/ArticleInput/addArticleInput", data)  .then((result) => {  
-                    console.log(result.data);            
-                  });  
+                props.addArticleInput(data); 
               };  
     return ( 
         <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
@@ -42,14 +38,15 @@ const AddArticleInput  = (props) => {
                 <p className="h4 text-center mb-4">Add ArticleInput</p>
                 <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
                     Article Name
-                </label> 
-                <select   
-                 onChange={onChange}
-                    className="browser-default custom-select">
-                    {articles.map((item)=>(
-                    <option  value={ArticleInputs.articleId=item.id}>{item.Name}</option>
-                    ))}
-                </select>
+                </label>
+                <Select
+                  name="articleId"
+                  value={ArticleInputs.articleId}
+                  options={articles}
+                  onChange={e => {
+                      console.log(e)
+                      setArticleInputs({articleId: e.value})}}
+                 />                    
                 <br />
                 <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                   quantity
@@ -73,7 +70,8 @@ const AddArticleInput  = (props) => {
 }
 
 const mapStateToProps =state=>({
-    cartProps : state.cartState
+    cartProps : state.cartState,
+    ArticleProps:state.ArticleState
     })
 
- export default connect(mapStateToProps, {getNumbers})(AddArticleInput);
+ export default connect(mapStateToProps, {getNumbers,getAllArticles,addArticleInput})(AddArticleInput);

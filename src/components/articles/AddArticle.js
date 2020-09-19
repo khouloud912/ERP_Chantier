@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import {getProviders} from '../../store/actions/provider/providerActions';
+import {getCategories} from '../../store/actions/category/categoryAction';
+import {addArticle} from '../../store/actions/article/AllArticleActions';
+import Select from "react-select";
+import {connect, connectAdvanced} from 'react-redux';
 import { Form, Field } from "react-final-form";
 import { Radio} from "final-form-material-ui";
 import {
@@ -12,16 +17,13 @@ import {
   FormControl,
   FormControlLabel,
   TextField,
-  Select,
   input
-
 } from "@material-ui/core";
-//import Select from 'react-select'
 
 import axios from 'axios';
 import { TimePicker, DatePicker } from "@material-ui/pickers";
 
-export default class AddEmployee extends Component {
+ class AddArticle extends Component {
   
     constructor(props) {
         super(props);
@@ -35,6 +37,8 @@ export default class AddEmployee extends Component {
             minimum_quantity: '',
             location:'',
             image:null,
+            providerId:'',
+            categorieId:'',
             categories:[{}],
             providers:[{}]
         };
@@ -48,7 +52,7 @@ export default class AddEmployee extends Component {
         this.onChangeLocation = this.onChangeLocation.bind(this);
         this.onChangeImage = this.onChangeImage.bind(this);
         this.onChangeCategory =this.onChangeCategory.bind(this);
-        this.onchangeProvider =this.onchangeProvider.bind(this);
+        this.onchangeProviderId =this.onchangeProviderId.bind(this);
         this.componentDidMount=this.componentDidMount.bind(this);
         this.handleSubmit= this.handleSubmit.bind(this);
       }
@@ -105,38 +109,30 @@ export default class AddEmployee extends Component {
       }
       onChangeCategory(e) {
         this.setState({
-            categories: e.target.value
+          categorieId: e.target.value
         }, function () {
-          console.log(this.state.categories);
+          console.log(e)
+          console.log(this.state.categorieId);
       });
       }
-      onchangeProvider(e) {
+      onchangeProviderId(e) {
         this.setState({
-          providers: e.target.value
+          providerId: e.target.value
         }, function () {
-          console.log(this.state.providers);
+          console.log(this.state.providerId);
       });
       }
   componentDidMount(){
-    axios.get("http://localhost:3001/Provider/getAllProviders").then(response => {
-    console.log(response.data);
+    this.props.getProviders();
+    this.props.getCategories();
+    console.log(this.props.categoryProps.categories);
+    console.log(this.props.ProviderProps.providers);
     this.setState({
-      providers:response.data
+      providers:this.props.ProviderProps.providers.map( option => ({ value: option.id, label: option.Name }))
     })
-  })
-  .catch(e => {
-    console.log(e);
-  });
-
-  axios.get("http://localhost:3001/categorie/getAllCategories").then(response => {
     this.setState({
-      categories:response.data
+      categories:this.props.categoryProps.categories.map( option => ({ value: option.id, label: option.Name_categorie }))
     })
-    console.log(response.data);
-  })
-  .catch(e => {
-    console.log(e);
-  });
   }
   handleSubmit(e){
     e.preventDefault();
@@ -151,24 +147,11 @@ export default class AddEmployee extends Component {
     data.append( "minimum_quantity",this.state.minimum_quantity);
     data.append( "location",this.state.location);
     data.append( "images",this.state.image);
-    data.append( "category",this.state.categories);
-    data.append( "provider",this.state.providers );
-    console.log(data.get("image"))
-    const headers = {
-        'content-type': 'multipart/form-data'
-    }
-    axios.post('http://localhost:3001/Article/addArticle',data,{headers})
-    .then((res) => {
-     console.log(res.data)
-     console.log("success")
- }).catch((error) => {
-     console.log(error)
-     console.log("hawel marra okhra")
- });
+    data.append( "categorieId",this.state.categorieId);
+    data.append( "providerId",this.state.providerId );
+    console.log(data.get("categorieId"))  
+    this.props.addArticle(data)
 };
- ReactSelectAdapter = ({ input, ...rest }) => (
-  <Select {...input} {...rest} searchable />
-)
   DatePickerWrapper(props) {
     const {
       input: { name, onChange, value, ...restInput },
@@ -384,51 +367,39 @@ export default class AddEmployee extends Component {
                         )}
                         </Field>
                     </Grid>
-
                     <Grid item xs={6}>
-                      <Field>
-                       {(props) => (
-                        <Select
-                        fullWidth
-                        required
-                        name="category"
-                        label="Select a category"
-                        value={this.state.categories}
-                        onChange={(e)=>this.onChangeCategory(e)}>
-                        {this.state.categories.map((item)=>(
-                        <option value={item.id}>{item.Name}</option>
-                        ))}
-                      </Select>
-                       )}
-                      </Field>
+                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
+                     Category Name
+                   </label> 
+                    <Field
+                      name="categorieId"
+                      value={this.state.categorieId}
+                      options={this.state.categories}
+                      onChange={e =>{
+                        console.log("e:", e)
+                         this.setState({categorieId: e.value})}}
+                      component={({ input, ...rest }) => (
+                        <Select {...input} {...rest} searchable />)}
+                    />
                     </Grid>
-
-
-
-
-
-
                     <Grid item xs={6}>
-                      <Field>
-                       {(props) => (
-                        <Select
-                        fullWidth
-                        required
-                        type="select"
-                        name="provider"
-                        label="Select a provider"
-                        value={this.state.providers}
-                        onChange={(e)=>this.onchangeProvider(e)}>
-                        {this.state.providers.map((item)=>(
-                        <MenuItem value={item.id}>{item.Name}</MenuItem>
-                        ))}
-                      </Select>
-                       )}
-                      </Field>
+                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
+                     Provider Name
+                   </label> 
+                    <Field
+                      name="providerId"
+                      value={this.state.providerId}
+                      options={this.state.providers}
+                      onChange={e =>{
+                        console.log("e:",e)
+                         this.setState({providerId: e.value})}}
+                      component={({ input, ...rest }) => (
+                        <Select {...input} {...rest} searchable />)}
+                    />
                     </Grid>
                     <div>
             
-            </div>
+                 </div>
                     <Grid item xs={12}>
                     <input
                     name="images"
@@ -464,3 +435,10 @@ export default class AddEmployee extends Component {
     );
   }
 }
+const mapStateToProps =state=>({
+  ProviderProps:state.providerState,
+  categoryProps:state.CategoryState, 
+  ArticleProps:state.ArticleState 
+  })
+
+export default connect(mapStateToProps, {getProviders, getCategories,addArticle})(AddArticle);

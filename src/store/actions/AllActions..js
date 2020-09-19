@@ -1,4 +1,4 @@
-import {ADD_PRODUCT_CART ,GET_ARTICLES, REMOVE_FROM_CART, ADJUST_ITEM_QTY} from './types';
+import {ADD_PRODUCT_CART , REMOVE_FROM_CART, ADJUST_ITEM_QTY ,INCREASE_QUANTITY ,DECREASE_QUANTITY} from './types';
 import axios from'axios';
 
 export const addCart =(id , Articles)=>{
@@ -21,6 +21,18 @@ export const removeFromCart = (itemID) => {
           },
         };
       };
+
+export const ProductQuantity = (action,id) => {
+  console.log("we are in actions now")
+  return {
+      type: action === "increase" ? INCREASE_QUANTITY :DECREASE_QUANTITY,
+      payload: {
+          id: id,
+        },
+      };
+    };
+
+
 export const adjustItemQty = (itemID, qty) => {
     return {
           type: ADJUST_ITEM_QTY,
@@ -30,10 +42,16 @@ export const adjustItemQty = (itemID, qty) => {
           },
         };
       };
-/*
+
+
+
+
+
+  /*
 export const fetchArticleDetails=()=> {
+  console.log("koki")
     return function(dispatch) {
-      return axios.get("http://localhost:3001/Article/getAllArticles")
+      return axios.get("http://localhost:3001/Provider/getAllProviders")
         .then(( response ) => {
             console.log(response);
         dispatch({

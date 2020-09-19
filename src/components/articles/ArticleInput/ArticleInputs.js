@@ -1,27 +1,19 @@
 import React, { useState,useEffect } from 'react';
+import {getArticlesInputs,deleteArticleInput} from '../../../store/actions/article/AllArticleActions';
+import {connect} from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
 
 
 const ArticleInputs = (props) => {
     const [data, setData] = useState([]);  
-useEffect(() => {  
-  console.log("koki");
-  axios.get("http://localhost:3001/Article/getAllArticleInputs").then(response => {
-    setData(response.data);
-    console.log(response.data);
-  })
-  .catch(e => {
-    console.log(e);
-  });
+  useEffect(() => { 
+    props.getArticlesInputs();
+    console.log(props.ArticleProps.ArticleInput)
+    setData(props.ArticleProps.ArticleInput)
   
 }, []); 
-const deleteArticleInput = (id) => {  
-      axios.delete(`http://localhost:3001/ArticleInput/deleteArticleInput/${id}`)  
-        .then((result) => {  
-          console.log("deleted succesffully")
-        });  
-    };  
+
 const AddArticleInput =()=>{
   props.history.push('/AddArticleInput')  ;
 }
@@ -53,7 +45,7 @@ const AddArticleInput =()=>{
                     <td>
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
-                      deleteArticleInput(item.id)} 
+                      props.deleteArticleInput(item.id)} 
                          >Remove</button>
                       <button type="button" class="btn btn-info btn-rounded btn-sm my-0" >edit </button>
                           </span>
@@ -70,5 +62,8 @@ const AddArticleInput =()=>{
 
     );
 }
- 
-export default ArticleInputs;
+
+const mapStateToProps=(state)=>({
+  ArticleProps :state.ArticleState
+  })
+export default connect(mapStateToProps , {getArticlesInputs,deleteArticleInput })(ArticleInputs);
