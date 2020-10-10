@@ -8,6 +8,7 @@ import ArticleReducer from '../actions/article/AllArticleReducer';
 import CategoryReducer from '../actions/category/categoryReducer';
 import CommandeReducer from '../actions/commande/commandeReducer';
 import AuthReducer from '../actions/authentification/authReducer';
+import NavbarReducer from '../actions/navbar/navbarReducer';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -26,7 +27,7 @@ const rootReducer = combineReducers({
     CategoryState:CategoryReducer,
     CommandeState:CommandeReducer,
     AuthState:AuthReducer,
-    
+    NavbarState:NavbarReducer , 
 })
 export default persistReducer(persistConfig,rootReducer);
 

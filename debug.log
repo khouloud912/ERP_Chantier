@@ -8,3 +8,8 @@
 [0827/210316.750:ERROR:exception_snapshot_win.cc(99)] thread ID 17588 not found in process
 [0912/233644.939:ERROR:process_reader_win.cc(127)] NtOpenThread: {Accès refusé} Un processus a demandé l’accès a un objet, mais il ne bénéficie pas des autorisations nécessaires. (0xc0000022)
 [0912/233646.328:ERROR:exception_snapshot_win.cc(100)] thread ID 28124 not found in process
+[1010/194642.680:ERROR:settings.cc(430)] Settings version is not 5
+[1010/195642.689:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\610c6e84-2559-4e15-8aa7-b21df9d3558b: Le chemin d’accès spécifié est introuvable. (0x3)
+[1010/195642.691:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\b12cee03-973f-4f09-81ee-147be99c7947: Le chemin d’accès spécifié est introuvable. (0x3)
+[1010/195642.692:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\d10fd1df-e432-4c4b-872b-14cae8de2778: Le chemin d’accès spécifié est introuvable. (0x3)
+[1010/195642.693:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)

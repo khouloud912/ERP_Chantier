@@ -1,6 +1,7 @@
 import {GET_EMPLOYEES} from '../employee/employeeTypes';
 
-const initialState = { employees: [{}] };
+const initialState = { employees: [{}] ,
+};
 
 const EmployeeReducer=(state=initialState,action)=>{
     switch(action.type){

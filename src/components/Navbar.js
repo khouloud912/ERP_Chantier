@@ -2,11 +2,11 @@ import React , {useState , useEffect} from 'react';
 import Employee from './employees/Employee';
 import Dashboard from './Dashboard';
 import {connect} from 'react-redux';
-//import {getNumbers} from '.././store/actions/getAction';
+import {changeState} from '.././store/actions/navbar/navbarAction';
 import {Link} from "react-router-dom"
 
 
-const Navbar = ({cartProps ,AuthProps}) => {
+const Navbar = ({cartProps ,AuthProps,NavbarProps}) => {
   const [FinanceElements,setFinanceState]=useState(false);
   const [RhElements,setRhElements]=useState(false);
   const [projectElements,setprojectElements]=useState(true);
@@ -47,11 +47,18 @@ const onChangeRhElements=(e)=>{
   setprojectElements(false);
   setManagementElement(true);
  }
+ 
+ const onChangeState=(value1,value2,value3)=>{  
+   console.log("dkhalna")
+  changeState(value1,value2,value3);
+
+ }
+
+
  const GoToCart=()=>{
     this.props.history.push('/Commande');
   }
   // console.log('Navbar');
-  console.log('Navebar','FinanceElements,RhElements,projectElements,managementElement',FinanceElements,RhElements,projectElements,managementElement);
   return ( 
     <div className="container-scroller">
     <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -67,27 +74,27 @@ const onChangeRhElements=(e)=>{
       <ul className="navbar-nav">
       {(AuthProps.user.roles.includes("ROLE_RHUSER") || AuthProps.user.roles.includes("ROLE_ADMIN") )&&
         <li className="nav-item dropdown d-none d-lg-flex">
-          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeRhElements(e)}>
+          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(true,false,false)}>
             <span className="btn">Gestion RH</span>
           </a>
         </li>
 }
  {(AuthProps.user.roles.includes("ROLE_FINANCEUSER") || AuthProps.user.roles.includes("ROLE_ADMIN"))&&
         <li className="nav-item dropdown d-none d-lg-flex">
-          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangefinanceElements(e)}>
+          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,true,false)}>
             <span className="btn">Module finance</span>
           </a>
         </li>
 }
 
         <li className="nav-item dropdown d-none d-lg-flex">
-          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeprojectElements(e)}>
+          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,false,false)}>
             <span className="btn">Gestion projet</span>
           </a>
         </li>
 {(AuthProps.user.roles.includes("ROLE_ADMIN"))&&
         <li className="nav-item dropdown d-none d-lg-flex">
-          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeManagementElements(e)}>
+          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,false,true)}>
             <span className="btn">Manage Users</span>
           </a>
         </li>
@@ -223,19 +230,25 @@ const onChangeRhElements=(e)=>{
     </div>
   </nav>
   <Dashboard 
-  FinanceState = {FinanceElements}
-  Rhstate={RhElements}
-  projectState={projectElements}
-  ManagementState={managementElement}
   />
   </div>
    );
 }
- 
+
+
+
+
+const mapDispatchToProps=dispatch=>{
+  return{
+    changeState:(v1,v2,v3)=>dispatch(changeState(v1,v2,v3)), 
+  } 
+}
+
 const mapStateToProps=state=>({
 cartProps :state.cartState,
 AuthProps :state.AuthState,
+NavbarProps : state.NavbarState,
 
 })
 
-export default connect(mapStateToProps)(Navbar)
+export default connect(mapStateToProps,mapDispatchToProps )(Navbar)

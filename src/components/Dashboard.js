@@ -13,19 +13,19 @@ class Dashboard extends Component {
     render(){ 
         return (
           <div style={{position:"fixed"}}>
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-            <ul class="nav">
-              <li class="nav-item nav-profile">
-                <div class="nav-link">
-                  <div class="profile-image">
+            <nav className="sidebar sidebar-offcanvas" id="sidebar">
+            <ul className="nav">
+              <li className="nav-item nav-profile">
+                <div className="nav-link">
+                  <div className="profile-image">
                     <img  alt="image"/>
-                    <span class="online-status online"></span> 
+                    <span className="online-status online"></span> 
                   </div>
-                  <div class="profile-name">
-                    <p class="name">
+                  <div className="profile-name">
+                    <p className="name">
                       Marina Michel
                     </p>
-                    <p class="designation">
+                    <p className="designation">
                       Super Admin
                     </p>
                   </div>
@@ -33,30 +33,30 @@ class Dashboard extends Component {
               </li>
               {this.props.Rhstate===true && ( this.props.AuthProps.user.roles.includes("ROLE_RHUSER")  ||(this.props.AuthProps.user.roles.includes("ROLE_ADMIN"))) &&
               <div>
-              <li class="nav-item">
-                <Link class="nav-link" to="/employee">
-                  <i class="icon-rocket menu-icon"></i>
-                  <span class="menu-title">Employees</span>
-                  <span class="badge badge-success">New</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/employee">
+                  <i className="icon-rocket menu-icon"></i>
+                  <span className="menu-title">Employees</span>
+                  <span className="badge badge-success">New</span>
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/departement">
-                  <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">departments</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/departement">
+                  <i className="icon-shield menu-icon"></i>
+                  <span className="menu-title">departments</span>
                 </Link>
               </li>
-              <li class="nav-item">
-              <Link class="nav-link" to="/abscence">
-                  <i class="icon-check menu-icon"></i>
-                  <span class="menu-title">Abscence</span>
-                  <span class="badge badge-danger">3</span>
+              <li className="nav-item">
+              <Link className="nav-link" to="/abscence">
+                  <i className="icon-check menu-icon"></i>
+                  <span className="menu-title">Abscence</span>
+                  <span className="badge badge-danger">3</span>
                 </Link>
-                <div class="collapse" id="page-layouts">
-                  <ul class="nav flex-column sub-menu">
-                    <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="pages/layout/boxed-layout.html">Boxed</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="pages/layout/rtl-layout.html">RTL</a></li>
-                    <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="pages/layout/horizontal-menu.html">Horizontal Menu</a></li>
+                <div className="collapse" id="page-layouts">
+                  <ul className="nav flex-column sub-menu">
+                    <li className="nav-item d-none d-lg-block"> <a className="nav-link" href="pages/layout/boxed-layout.html">Boxed</a></li>
+                    <li className="nav-item"> <a className="nav-link" href="pages/layout/rtl-layout.html">RTL</a></li>
+                    <li className="nav-item d-none d-lg-block"> <a className="nav-link" href="pages/layout/horizontal-menu.html">Horizontal Menu</a></li>
                   </ul>
                 </div>
               </li>
@@ -64,53 +64,53 @@ class Dashboard extends Component {
                }
               {this.props.FinanceState=== true && (this.props.FinanceState=== true && this.props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") || (this.props.AuthProps.user.roles.includes("ROLE_ADMIN") )) &&
               <div>
-              <li class="nav-item">
-                <Link class="nav-link" to="/Articles">
-                  <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">Article</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Articles">
+                  <i className="icon-shield menu-icon"></i>
+                  <span className="menu-title">Article</span>
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/ArticleInput">
-                  <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">Article Input</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/ArticleInput">
+                  <i className="icon-shield menu-icon"></i>
+                  <span className="menu-title">Article Input</span>
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/ArticleOutput">
-                  <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">Article Output</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/ArticleOutput">
+                  <i className="icon-shield menu-icon"></i>
+                  <span className="menu-title">Article Output</span>
                 </Link>
               </li>
-               <li class="nav-item">
-               <Link class="nav-link" to="/categories">
-                 <i class="icon-rocket menu-icon"></i>
-                 <span class="menu-title">Category</span>
+               <li className="nav-item">
+               <Link className="nav-link" to="/categories">
+                 <i className="icon-rocket menu-icon"></i>
+                 <span className="menu-title">Category</span>
                </Link>
              </li>
 
-            <li class="nav-item">
-               <Link class="nav-link" to="/providers">
-                 <i class="icon-rocket menu-icon"></i>
-                 <span class="menu-title">Providers</span>
+            <li className="nav-item">
+               <Link className="nav-link" to="/providers">
+                 <i className="icon-rocket menu-icon"></i>
+                 <span className="menu-title">Providers</span>
                </Link>
              </li> 
-             <li class="nav-item">
-               <Link class="nav-link" to="/Commande">
-                 <i class="icon-rocket menu-icon"></i>
-                 <span class="menu-title">Commandes</span>
+             <li className="nav-item">
+               <Link className="nav-link" to="/Commande">
+                 <i className="icon-rocket menu-icon"></i>
+                 <span className="menu-title">Commandes</span>
                </Link>
              </li> 
-             <li class="nav-item">
-               <Link class="nav-link" to ="/CommandeLigne">
-                 <i class="icon-rocket menu-icon"></i>
-                 <span class="menu-title">Commande lignes</span>
+             <li className="nav-item">
+               <Link className="nav-link" to ="/CommandeLigne">
+                 <i className="icon-rocket menu-icon"></i>
+                 <span className="menu-title">Commande lignes</span>
                </Link>
              </li> 
-             <li class="nav-item">
-               <a class="nav-link" href="/">
-                 <i class="icon-rocket menu-icon"></i>
-                 <span class="menu-title">Statistics</span>
+             <li className="nav-item">
+               <a className="nav-link" href="/">
+                 <i className="icon-rocket menu-icon"></i>
+                 <span className="menu-title">Statistics</span>
                </a>
              </li> 
 
@@ -119,10 +119,10 @@ class Dashboard extends Component {
 
 {this.props.ManagementState=== true  && (this.props.AuthProps.user.roles.includes("ROLE_ADMIN")) &&
             <div>
-              <li class="nav-item">
-                <Link class="nav-link" to="/">
-                  <i class="icon-shield menu-icon"></i>
-                  <span class="menu-title">Users</span>
+              <li className="nav-item">
+                <Link className="nav-link" to="/">
+                  <i className="icon-shield menu-icon"></i>
+                  <span className="menu-title">Users</span>
                 </Link>
               </li>
              </div>         

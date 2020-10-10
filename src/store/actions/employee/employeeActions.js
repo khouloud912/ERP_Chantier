@@ -1,5 +1,7 @@
-import { GET_EMPLOYEES } from "./employeeTypes";
+import { GET_EMPLOYEES , CHANGE_DASHBOARD } from "./employeeTypes";
 import axios from 'axios';
+
+
 
 export const getEmployees=()=> {
     console.log("hjkjkj")
