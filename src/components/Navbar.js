@@ -230,6 +230,12 @@ const onChangeRhElements=(e)=>{
     </div>
   </nav>
   <Dashboard 
+    FinanceState = {FinanceElements}
+    Rhstate={RhElements}
+    projectState={projectElements}
+    ManagementState={managementElement}
+
+
   />
   </div>
    );
