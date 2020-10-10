@@ -31,7 +31,10 @@ const Commande = ({cartProps , removeFromCart , adjustItemQty ,addCommande}) => 
  }
 
   return ( 
- <div style={{marginLeft:"28%",marginTop:'5%'}}>
+    <div className="container-fluid page-body-wrapper">
+    <div class="row row-offcanvas row-offcanvas-right">
+    <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "5%" , marginLeft:"28%" }}> 
+ 
   <section>
     <div className="row">
       <div className="col-lg-8">
@@ -43,10 +46,10 @@ const Commande = ({cartProps , removeFromCart , adjustItemQty ,addCommande}) => 
             <div className="row mb-4">
               <div className="col-md-5 col-lg-3 col-xl-3">
                 <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                  <img className="img-fluid w-100" src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample" />
+                  <img className="img-fluid w-100" src={`${"http://localhost:3001"}/${item.image}`} alt="Sample" />
                   <a href="#!">
                     <div className="mask">
-                      <img className="img-fluid w-100" src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" />
+                      <img className="img-fluid w-100" src={`${"http://localhost:3001"}/${item.image}`} />
                       <div className="mask rgba-black-slight" />
                     </div>
                   </a>
@@ -131,7 +134,7 @@ const Commande = ({cartProps , removeFromCart , adjustItemQty ,addCommande}) => 
       </div>
     </div>
   </section>
-</div>
+</div></div></div>
    );
 }
  

@@ -83,7 +83,9 @@ import {connect} from 'react-redux';
     render() {
   
         return (
-          <div>
+          <div className="container-fluid page-body-wrapper">
+          <div class="row row-offcanvas row-offcanvas-right">
+          <div class="content-wrapper" style={{backgroundColor: "white"}}>
             <div style={{ marginTop: "4%" , marginLeft:"24%" }}>              
         <div className="modal-content">
           <div className="modal-header">
@@ -144,6 +146,7 @@ import {connect} from 'react-redux';
         </div>
       </div>  
       </div>
+      </div></div>
         )
     }
 }

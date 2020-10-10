@@ -1,7 +1,7 @@
 import {GET_ARTICLEOUTPUT,GET_ARTICLEINPUT,GET_ARTICLES} from '../article/AllArticleTypes';
 
 const initialState = { 
-    AllArticles: [{}] ,
+    AllArticles: [{}],
     ArticleInput:[{}],
     ArticleOutput:[{}]
 }

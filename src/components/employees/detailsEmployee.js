@@ -17,9 +17,12 @@ export default class detailsEmployee extends Component {
         })
     }
     render() { 
-       return (        
-            <div>
-                	<div class="card " style={{ marginTop: "8%" , marginLeft:"20%" }}>
+       return (   
+		<div className="container-fluid page-body-wrapper">
+		<div class="row row-offcanvas row-offcanvas-right">
+		<div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "8%" , marginLeft:"20%" }}>     
+            
+                	<div class="card ">
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
@@ -90,7 +93,7 @@ export default class detailsEmployee extends Component {
 							</div>
 						</div>
 					</div>
-            </div>
+            </div></div></div>
         )
     }}
 

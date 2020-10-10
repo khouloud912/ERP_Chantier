@@ -211,6 +211,10 @@ import { TimePicker, DatePicker } from "@material-ui/pickers";
     const { classes } = this.props;
     return (
       <div>
+        
+        <div className="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+        <div class="content-wrapper" >
         <div
           style={{
             maxWidth: 600,
@@ -431,7 +435,7 @@ import { TimePicker, DatePicker } from "@material-ui/pickers";
             )}
           />
         </div>
-      </div>
+      </div></div></div></div>
     );
   }
 }

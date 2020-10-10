@@ -204,15 +204,15 @@ import { TimePicker, DatePicker } from "@material-ui/pickers";
   };
   render() {
     return (
-      <div>
-        <div
-          style={{
+      <div className="container-fluid page-body-wrapper">
+      <div class="row row-offcanvas row-offcanvas-right">
+      <div class="content-wrapper"  style={{
             maxWidth: 600,
             marginTop: "10%",
             marginLeft: "30%",
             backgroundColor: "white",
-          }}
-        >
+          }}> 
+        
           <CssBaseline />
           <Form
             onSubmit={() => {}}
@@ -479,7 +479,7 @@ import { TimePicker, DatePicker } from "@material-ui/pickers";
             )}
           />
         </div>
-      </div>
+      </div></div>
     );
   }
 }

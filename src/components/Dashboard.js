@@ -1,17 +1,24 @@
 import React , {Component} from 'react';
+import {Link} from "react-router-dom";
+import {connect} from 'react-redux';
+
+
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
+    console.log(this.props.FinanceState);
+    console.log(this.props.Rhstate)
   }
     render(){ 
         return (
+          <div style={{position:"fixed"}}>
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
               <li class="nav-item nav-profile">
                 <div class="nav-link">
                   <div class="profile-image">
-                    <img src="images/faces/face10.jpg" alt="image"/>
+                    <img  alt="image"/>
                     <span class="online-status online"></span> 
                   </div>
                   <div class="profile-name">
@@ -24,27 +31,27 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </li>
-              {this.props.Rhstate?
+              {this.props.Rhstate===true && ( this.props.AuthProps.user.roles.includes("ROLE_RHUSER")  ||(this.props.AuthProps.user.roles.includes("ROLE_ADMIN"))) &&
               <div>
               <li class="nav-item">
-                <a class="nav-link" href="/employee">
+                <Link class="nav-link" to="/employee">
                   <i class="icon-rocket menu-icon"></i>
                   <span class="menu-title">Employees</span>
                   <span class="badge badge-success">New</span>
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/departement">
+                <Link class="nav-link" to="/departement">
                   <i class="icon-shield menu-icon"></i>
                   <span class="menu-title">departments</span>
-                </a>
+                </Link>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="/abscence">
+              <Link class="nav-link" to="/abscence">
                   <i class="icon-check menu-icon"></i>
                   <span class="menu-title">Abscence</span>
                   <span class="badge badge-danger">3</span>
-                </a>
+                </Link>
                 <div class="collapse" id="page-layouts">
                   <ul class="nav flex-column sub-menu">
                     <li class="nav-item d-none d-lg-block"> <a class="nav-link" href="pages/layout/boxed-layout.html">Boxed</a></li>
@@ -53,40 +60,52 @@ class Dashboard extends Component {
                   </ul>
                 </div>
               </li>
-              </div>:null
+              </div>
                }
-              {this.props.FinanceState?
+              {this.props.FinanceState=== true && (this.props.FinanceState=== true && this.props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") || (this.props.AuthProps.user.roles.includes("ROLE_ADMIN") )) &&
               <div>
               <li class="nav-item">
-                <a class="nav-link" href="/AddArticle">
+                <Link class="nav-link" to="/Articles">
                   <i class="icon-shield menu-icon"></i>
                   <span class="menu-title">Article</span>
-                </a>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link class="nav-link" to="/ArticleInput">
+                  <i class="icon-shield menu-icon"></i>
+                  <span class="menu-title">Article Input</span>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link class="nav-link" to="/ArticleOutput">
+                  <i class="icon-shield menu-icon"></i>
+                  <span class="menu-title">Article Output</span>
+                </Link>
               </li>
                <li class="nav-item">
-               <a class="nav-link" href="/">
+               <Link class="nav-link" to="/categories">
                  <i class="icon-rocket menu-icon"></i>
                  <span class="menu-title">Category</span>
-               </a>
+               </Link>
              </li>
 
             <li class="nav-item">
-               <a class="nav-link" href="/">
+               <Link class="nav-link" to="/providers">
                  <i class="icon-rocket menu-icon"></i>
                  <span class="menu-title">Providers</span>
-               </a>
+               </Link>
              </li> 
              <li class="nav-item">
-               <a class="nav-link" href="/">
+               <Link class="nav-link" to="/Commande">
                  <i class="icon-rocket menu-icon"></i>
                  <span class="menu-title">Commandes</span>
-               </a>
+               </Link>
              </li> 
              <li class="nav-item">
-               <a class="nav-link" href="/">
+               <Link class="nav-link" to ="/CommandeLigne">
                  <i class="icon-rocket menu-icon"></i>
                  <span class="menu-title">Commande lignes</span>
-               </a>
+               </Link>
              </li> 
              <li class="nav-item">
                <a class="nav-link" href="/">
@@ -94,12 +113,31 @@ class Dashboard extends Component {
                  <span class="menu-title">Statistics</span>
                </a>
              </li> 
+
              </div>
-              :null
                   }
+
+{this.props.ManagementState=== true  && (this.props.AuthProps.user.roles.includes("ROLE_ADMIN")) &&
+            <div>
+              <li class="nav-item">
+                <Link class="nav-link" to="/">
+                  <i class="icon-shield menu-icon"></i>
+                  <span class="menu-title">Users</span>
+                </Link>
+              </li>
+             </div>         
+}
               </ul>
           </nav>
+          </div>
         )
     }
 }
-export default Dashboard;
+
+
+const mapStateToProps=(state)=>({
+ AuthProps :state.AuthState,
+
+  })
+export default connect(mapStateToProps)(Dashboard)
+

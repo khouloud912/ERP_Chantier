@@ -39,3 +39,12 @@ export const getCommandeLignes=(id)=> {
     }
 }
 
+/***************************************************************************** Reception section */
+
+
+export const addReception=(newReception)=>dispatch=>{
+    console.log("newCommande", newReception);
+   return  axios.post("http://localhost:3001/Reception/addReception",newReception)
+     .then(res =>alert("Reception added"))
+    .catch(err=>console.log(err))
+}

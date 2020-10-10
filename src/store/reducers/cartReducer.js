@@ -36,8 +36,7 @@ const cartReducer = (state = initialState, action) => {
                       : item
                   )
                 : [...state.cart, { ...item ,quantity:item.quantity+1 }],
-                }
-                
+                }                
         case GET_NUMBERS_PRODUCT:
             return {...state,
             }

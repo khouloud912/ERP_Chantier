@@ -19,20 +19,30 @@ export const getAllArticles=()=> {
 export const addArticle=(newArticle)=>dispatch=>{
     axios.post("http://localhost:3001/Article/addArticle",newArticle)
     .then(res=>dispatch(getAllArticles()))
-    // .then(res =>alert("user added"))
+    // .then(res =>alert("user added"))1
     .catch(err=>console.log(err))
 }
 export const deleteArticle=(id)=>dispatch=>{
-    axios.delete(`http://localhost:3001/Departement/deleteDepartement/${id}`)
+    axios.delete(`http://localhost:3001/Article/deleteArticle/${id}`)
     .then(res=>dispatch(getAllArticles()))
     .catch(err=>console.log(err))
 }
 /*
-export const putContact=(id,updatedContact)=>dispatch=>{
-    axios.put(`http://localhost:5000/contacts/${id}`,updatedContact)
-    .then(res=>dispatch(getProviders()))
+export const putArticle=(id,quantity  )=>dispatch=>{
+    axios.put(`http://localhost:5000/Article/${id}`,new  )
+    .then(res=>dispatch(getAllArticles()))
     .catch(err=>console.log(err))
 }*/
+export const getOneArticle=(id,quantity, action)=>dispatch=>{
+    console.log("koki habitek");
+    console.log("id:", id, "action:", action , "quantity" , quantity)
+      axios.post(`http://localhost:3001/Article/getArticle/${id}`, { quantity , action})
+    .then(res=>{
+        console.log(res)
+        dispatch(getAllArticles())
+    })
+    .catch(err=>console.log(err))
+}
 
 /********************************************************************************************* Article Inputs*/
 
@@ -54,8 +64,12 @@ export const getArticlesInputs=()=> {
 }
 
 export const addArticleInput=(newArticleInput)=>dispatch=>{
+    console.log( "new Article input quantity",newArticleInput.quantity)
     axios.post("http://localhost:3001/ArticleInput/addArticleInput",newArticleInput)
-    .then(res=>dispatch(getArticlesInputs()))
+    .then(res=>{
+        dispatch(getArticlesInputs())
+        dispatch(getOneArticle(newArticleInput.articleId, newArticleInput.quantity , "input"))
+    })
     // .then(res =>alert("user added"))
     .catch(err=>console.log(err))
 }
@@ -77,8 +91,6 @@ export const putContact=(id,updatedContact)=>dispatch=>{
 /********************************************************************************************ArticleOutputs */
 
 
-
-
 export const getAllArticlesOutputs=()=> {
     console.log("hjkjkj")
     return function(dispatch) {
@@ -97,8 +109,11 @@ export const getAllArticlesOutputs=()=> {
 
 export const addArticleOutput=(newArticleOutput)=>dispatch=>{
     axios.post("http://localhost:3001/ArticleOutput/addArticleOutput",newArticleOutput)
-    .then(res=>dispatch(getAllArticlesOutputs()))
-    .then(res =>alert("ArticleOutput added"))
+    .then(res=>{
+        dispatch(getAllArticlesOutputs())
+        dispatch(getOneArticle(newArticleOutput.articleId, newArticleOutput.quantity , "output"))
+    })
+    // .then(res =>alert("user added"))
     .catch(err=>console.log(err))
 }
 export const deleteArticleOutput=(id)=>dispatch=>{

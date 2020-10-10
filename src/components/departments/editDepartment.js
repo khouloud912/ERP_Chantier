@@ -77,7 +77,10 @@ import {connect} from 'react-redux';
     
      render() {
         return (
-            <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
+          <div className="container-fluid page-body-wrapper">
+          <div class="row row-offcanvas row-offcanvas-right">
+          <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}> 
+            
         <MDBContainer>
         <MDBRow>
             <MDBCol md="8">
@@ -118,7 +121,7 @@ import {connect} from 'react-redux';
             </MDBCol>
         </MDBRow>
         </MDBContainer>       
-</div>
+</div></div></div>
         )
     }
 

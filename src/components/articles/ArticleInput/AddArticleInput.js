@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn } from 'mdbreact';
 import {connect} from 'react-redux';
 import {getNumbers} from '../../../store/actions/getAction';
-import {getAllArticles,addArticleInput} from '../../../store/actions/article/AllArticleActions'
+import {getAllArticles,addArticleInput } from '../../../store/actions/article/AllArticleActions'
 import Select from "react-select";
 
 const AddArticleInput  = (props) => {
@@ -28,9 +28,12 @@ const AddArticleInput  = (props) => {
                 const data = { articleId:ArticleInputs.articleId, total_price:ArticleInputs.total_price, quantity: ArticleInputs.quantity };  
                 console.log(data)
                 props.addArticleInput(data); 
+                //props.getOneArticle(ArticleInputs.articleId, ArticleInputs.quantity , 'input' )
               };  
-    return ( 
-        <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
+    return (
+        <div className="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+        <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}> 
         <MDBContainer>
         <MDBRow>
             <MDBCol md="8">
@@ -65,13 +68,13 @@ const AddArticleInput  = (props) => {
             </MDBCol>
         </MDBRow>
         </MDBContainer>       
-</div>
+</div></div></div>
      );
 }
-
 const mapStateToProps =state=>({
     cartProps : state.cartState,
-    ArticleProps:state.ArticleState
+    ArticleProps:state.ArticleState,
+
     })
 
  export default connect(mapStateToProps, {getNumbers,getAllArticles,addArticleInput})(AddArticleInput);

@@ -4,7 +4,7 @@ import {addProvider} from '../../store/actions/provider/providerActions';
 import {connect} from 'react-redux';
 
 const AddProvider  = (props) => {
-    const [providers, setProvider] = useState({ Name: '', adress: '', postal_code:'',city:'',country:'',phone:'',email:'' });  
+    const [providers, setProvider] = useState({ Name: '', Adress: '', postal_code:'',city:'',country:'',phone:'',email:'' });  
 
     const onChange = (e) => {  
         setProvider({ ...providers, [e.target.name]: e.target.value });
@@ -13,11 +13,13 @@ const AddProvider  = (props) => {
                 console.log("koki");
                 e.preventDefault();  
                 console.log(e)
-                const data = { Name:providers.Name, adress: providers.adress , postal_code:providers.postal_code,city:providers.city,country:providers.country,phone:providers.phone,email:providers.email };  
+                const data = { Name:providers.Name, Adress: providers.Adress , postal_code:providers.postal_code,city:providers.city,country:providers.country,phone:providers.phone,email:providers.email };  
                 props.addProvider(data)
               };  
     return ( 
-        <div style={{ marginTop: "4%" , marginLeft:"24%" }}>
+        <div className="container-fluid page-body-wrapper">
+        <div class="row row-offcanvas row-offcanvas-right">
+        <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}> 
         <MDBContainer>
         <MDBRow>
             <MDBCol md="8">
@@ -31,7 +33,7 @@ const AddProvider  = (props) => {
                 <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                     Adress
                 </label>
-                <input type="text" name="adress" className="form-control" value={providers.adress} onChange={onChange} />
+                <input type="text" name="Adress" className="form-control" value={providers.Adress} onChange={onChange} />
                 <br />
                 <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">
                    Postal Code
@@ -65,7 +67,7 @@ const AddProvider  = (props) => {
             </MDBCol>
         </MDBRow>
         </MDBContainer>       
-</div>
+</div></div></div>
      );
 }
 const mapStateToProps =state=>({
