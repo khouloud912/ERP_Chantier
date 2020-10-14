@@ -40,11 +40,11 @@ const AddArticleInput =()=>{
       <div class="row row-offcanvas row-offcanvas-right">
       <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}>
         
-        <div class="card" style={{ marginTop: "4%" , marginLeft:"24%" , width:"800px"}}>
+        <div class="card" style={{width:"800px"}}>
           <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Article Inputs</h3>
         <div class="card-body">
             <div id="table" class="table-editable">
-            {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+            {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
               <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
                     class="fas fa-plus fa-2x" aria-hidden="true" onClick={AddArticleInput}></i></a></span>
     }
@@ -66,7 +66,7 @@ const AddArticleInput =()=>{
                 <td class="pt-3-half" contenteditable="true">{item.total_price}</td>
                 <td class="pt-3-half" contenteditable="true">{moment(item.createdAt).format("DD-MM-YYYY")}</td>
                     <td>
-                    {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+                    {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
                       props.deleteArticleInput(item.id)} 

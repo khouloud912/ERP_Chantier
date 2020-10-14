@@ -49,21 +49,29 @@ const App = (props) => {
     return <Route {...rest} render={(props) => (isLoggedIn ? (<>
          <Navbar {...props}/><Component {...props}/>  
          </>)
-        :(<Redirect to={{pathname: '/login', state: {from: props.location}}} />)
+        :<Redirect to={{pathname: '/login', state: {from: props.location}}} />
     )}/>
       }
-
+// try now
+/*
+const  ProtectedRoute= ({ component: Component, ...rest }) => {
+  return <Route {...rest} render={(props) =>  (<>
+       <Navbar {...props}/><Component {...props}/>  
+       </>)
+  }/>
+    }*/
   return ( 
     <Router>
     <div class="App" >
+    {!isLoggedIn &&
+    <div>
     <Route exact path='/register' component={Register}/>
     <Route exact path='/login' component={login}/>
-
      <Route exact path='/users/password/forget' component={ForgetPassword}/>
      <Route exact path='/users/password/reset/:token' component={ResetPassword}/>
     <Route exact path='/users/activate/:token' component={Activation}/>
-
-
+    </div>
+}
     {isLoggedIn && (props.AuthProps.user.roles.includes("ROLE_RHUSER") || (props.AuthProps.user.roles.includes("ROLE_ADMIN")))&&
     <div>
         <ProtectedRoute path='/employee' component={Employee}/>
@@ -105,11 +113,13 @@ const App = (props) => {
         <ProtectedRoute path='/AddReception' component={Reception}/> 
 </div>
 }
-{isLoggedIn && props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") && 
+{isLoggedIn && props.AuthProps.user.roles.includes("ROLE_ADMIN") && 
 <div>
 <ProtectedRoute exact path='/userManagment' component={UserManagement}/>
 </div>
 }
+
+
 </div>
     </Router>
    );

@@ -3,63 +3,40 @@ import Employee from './employees/Employee';
 import Dashboard from './Dashboard';
 import {connect} from 'react-redux';
 import {changeState} from '.././store/actions/navbar/navbarAction';
+import {logout} from '.././store/actions/authentification/authentificationAction';
 import {Link} from "react-router-dom"
 
 
-const Navbar = ({cartProps ,AuthProps,NavbarProps}) => {
-  const [FinanceElements,setFinanceState]=useState(false);
-  const [RhElements,setRhElements]=useState(false);
-  const [projectElements,setprojectElements]=useState(true);
-  const[managementElement,setManagementElement]=useState(false);
+const Navbar = (props) => {
+
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     let count = 0;
-    cartProps.cart.forEach((item) => {
+    
+    props.cartProps.cart.forEach((item) => {
       count += item.quantity;
     });
 
     setCartCount(count);
-  }, [cartProps, cartCount]);
+  }, []);
 
-
- const onChangefinanceElements=(e)=>{
-    setFinanceState(true);
-    setRhElements(false);
-    setprojectElements(false)
-   
- }
-const onChangeprojectElements=(e)=>{
-  setFinanceState(false);
-  setRhElements(false);
-  setprojectElements(true)
-  
- }
-const onChangeRhElements=(e)=>{
-  setFinanceState(false);
-  setRhElements(true);
-  setprojectElements(false)
- }
-
- const onChangeManagementElements=(e)=>{
-  setFinanceState(false);
-  setRhElements(false);
-  setprojectElements(false);
-  setManagementElement(true);
- }
- 
  const onChangeState=(value1,value2,value3)=>{  
    console.log("dkhalna")
-  changeState(value1,value2,value3);
-
+  props.changeState(value1,value2,value3);
  }
-
+ const GoLogout=()=>{
+   console.log("koki")
+   props.logout();
+   props.history.push('/login')
+ }
 
  const GoToCart=()=>{
     this.props.history.push('/Commande');
   }
   // console.log('Navbar');
   return ( 
+    console.log("this is props",props),
     <div className="container-scroller">
     <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
     <div className="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
@@ -72,33 +49,32 @@ const onChangeRhElements=(e)=>{
       </button>
 
       <ul className="navbar-nav">
-      {(AuthProps.user.roles.includes("ROLE_RHUSER") || AuthProps.user.roles.includes("ROLE_ADMIN") )&&
+      {(props.AuthProps.user.roles.includes("ROLE_RHUSER") || props.AuthProps.user.roles.includes("ROLE_ADMIN") )&&
         <li className="nav-item dropdown d-none d-lg-flex">
           <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(true,false,false)}>
             <span className="btn">Gestion RH</span>
           </a>
         </li>
 }
- {(AuthProps.user.roles.includes("ROLE_FINANCEUSER") || AuthProps.user.roles.includes("ROLE_ADMIN"))&&
+ {(props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") || props.AuthProps.user.roles.includes("ROLE_ADMIN"))&&
         <li className="nav-item dropdown d-none d-lg-flex">
           <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,true,false)}>
             <span className="btn">Module finance</span>
           </a>
         </li>
 }
-
-        <li className="nav-item dropdown d-none d-lg-flex">
-          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,false,false)}>
-            <span className="btn">Gestion projet</span>
-          </a>
-        </li>
-{(AuthProps.user.roles.includes("ROLE_ADMIN"))&&
+{(props.AuthProps.user.roles.includes("ROLE_ADMIN"))&&
         <li className="nav-item dropdown d-none d-lg-flex">
           <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,false,true)}>
             <span className="btn">Manage Users</span>
           </a>
         </li>
 }
+        <li className="nav-item dropdown d-none d-lg-flex">
+          <a className="nav-link dropdown-toggle nav-btn" id="actionDropdown" data-toggle="dropdown" onClick={(e)=>onChangeState(false,false,false)}>
+            <span className="btn">Gestion projet</span>
+          </a>
+        </li>
 
       </ul>
       <ul className="navbar-nav navbar-nav-right">
@@ -212,31 +188,24 @@ const onChangeRhElements=(e)=>{
             </a>
           </div>
         </li>
-        <li className="nav-item nav-settings d-none d-lg-block">
-          <a className="nav-link" href="#">
-            <i className="icon-grid"></i>
-          </a>
-        </li>
-        {AuthProps.user.roles.includes("ROLE_FINANCEUSER") &&
+        
+        {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") &&
         <li>
         <Link data-toggle="tooltip" data-placement="top" title="Add to Cart" to='/Commande' ><i className="fas fa-shopping-cart mr-3"></i></Link>
          <span className="badge badge-danger">{cartCount}</span>
         </li>
       }
+      <li>
+        <button type="button" class="btn btn-primary btn-sm" onClick={()=>GoLogout()}>logout</button>
+      </li>
+        
       </ul>
       <button className="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
       <span className="icon-menu"> </span>
       </button>
     </div>
   </nav>
-  <Dashboard 
-    FinanceState = {FinanceElements}
-    Rhstate={RhElements}
-    projectState={projectElements}
-    ManagementState={managementElement}
-
-
-  />
+  <Dashboard/>
   </div>
    );
 }
@@ -247,6 +216,7 @@ const onChangeRhElements=(e)=>{
 const mapDispatchToProps=dispatch=>{
   return{
     changeState:(v1,v2,v3)=>dispatch(changeState(v1,v2,v3)), 
+    logout:()=>dispatch(logout())
   } 
 }
 

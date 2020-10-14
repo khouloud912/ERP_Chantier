@@ -6,8 +6,10 @@ import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {login} from '../../store/actions/authentification/authentificationAction';
+import {changeState} from '../../store/actions/navbar/navbarAction';
 
-const Login = ({ history ,login }) => {
+
+const Login = ({AuthProps,NavbarProps,history,login, changeState}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -26,34 +28,35 @@ const Login = ({ history ,login }) => {
     });
   };
 */
-
-
   const handleSubmit = e => {
     e.preventDefault();
     if (email && password) {
       setFormData({ ...formData, textChange: 'Submitting' });
-      login(email,password);
 
-/*
-      axios
-        .post(`${process.env.REACT_APP_API_URL}/login`, {
-          email,
-          password: password1
-        })
-        .then(res => {
-          authenticate(res, () => {
+     axios.post("http://localhost:3001/Auth/login",{email,password}).then(response => {
+      if (response.data.accessToken) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+      }
+      login(response.data);
             setFormData({
               ...formData,
               email: '',
               password1: '',
               textChange: 'Submitted'
             });
-            isAuth() && isAuth().role === 'admin'
-              ? history.push('/admin')
-              : history.push('/private');
-            toast.success(`Hey ${res.data.user.name}, Welcome back!`);
-          });
-        })
+            if(response.data.roles.includes("ROLE_RHUSER")){
+              changeState(true,false,false);
+              history.push('/employee');
+              
+            }else if(response.data.roles.includes("ROLE_FINANCEUSER")){
+              changeState(false,true,false);
+
+              history.push('/articles')
+            }else {
+              changeState(false,false,true);
+
+              history.push('/userManagment')
+            }})
         .catch(err => {
           setFormData({
             ...formData,
@@ -63,13 +66,15 @@ const Login = ({ history ,login }) => {
           });
           console.log(err.response);
           toast.error(err.response.data.errors);
-        });*/
+        });
     } else {
       toast.error('Please fill all fields');
     }
-  };
+  }
 
   return (
+    console.log("roles",AuthProps),
+
     <div class="container" style={{marginTop:'3%', width:'70%' , height:'5rem'}}>
 
     <div className='min-h-screen bg-gray-100 text-gray-900 flex justify-center'>
@@ -78,7 +83,7 @@ const Login = ({ history ,login }) => {
         <div className='lg:w-1/2 xl:w-5/12 p-6 sm:p-12'>
           <div className='mt-12 flex flex-col items-center'>
             <h1 className='text-2xl xl:text-3xl font-extrabold'>
-              Sign In for Congar
+              Sign In 
             </h1>
             <div className='w-full flex-1 mt-8 text-indigo-500'>
               <div className='flex flex-col items-center'>
@@ -150,10 +155,9 @@ const Login = ({ history ,login }) => {
   );
 };
 
-
-
 const mapStateToProps =state=>({
     AuthProps : state.AuthState,
+    NavbarProps : state.NavbarState,
 })
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login,changeState})(Login);

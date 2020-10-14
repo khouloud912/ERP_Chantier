@@ -38,7 +38,7 @@ const AddProvider =()=>{
     return (  
       <div className="container-fluid page-body-wrapper">
       <div class="row row-offcanvas row-offcanvas-right">
-      <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}> 
+      <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"22%" }}> 
         
         <div class="card" style={{  width:"1000px"}}>
           <h3 class="card-header text-center font-weight-bold text-uppercase py-4"  >Providers</h3>
@@ -51,7 +51,7 @@ const AddProvider =()=>{
                   value={searchTerm}
                   onChange={handleChange}
                  />
-                {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+                {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
                 <a href="#!" class="text-success">  <i class="fas fa-plus fa-2x" aria-hidden="true" onClick={AddProvider}></i></a>
                }
                  </MDBFormInline>
@@ -78,7 +78,7 @@ const AddProvider =()=>{
                 <td class="pt-3-half" contenteditable="true">{item.city}</td>
                 <td class="pt-3-half" contenteditable="true">{item.Adress}</td>
                     <td>
-                    {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+                    {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
                       props.deleteProvider(item.id)} 

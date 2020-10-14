@@ -48,7 +48,7 @@ const AddCategory =()=>{
                   value={searchTerm}
                   onChange={handleChange}
                  />
-               {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+               {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
                 <a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true" onClick={AddCategory}></i></a>
                  }
                  </MDBFormInline>
@@ -68,7 +68,7 @@ const AddCategory =()=>{
                 <td class="pt-3-half" contenteditable="true">{item.Name_categorie}</td>
                 <td class="pt-3-half" contenteditable="true">{item.description}</td>
                     <td>
-                    {props.AuthProps.user.user.roles.includes("ROLE_FINANCEUSER")&&
+                    {props.AuthProps.user.roles.includes("ROLE_FINANCEUSER")&&
                       <span class="table-remove">
                         <button type="button"  class="btn btn-danger btn-rounded btn-sm my-0"  onClick={(e) =>window.confirm("Are you sure you wish to delete this item?") &&
                           props.deleteCategory(item.id) } 

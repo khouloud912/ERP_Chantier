@@ -1,5 +1,12 @@
 import { ToastContainer, toast } from 'react-toastify';
+import history from './history'
+
 import axios from 'axios';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect
+} from "react-router-dom";
 import {
     REGISTER_SUCCESS,
     LOGIN_SUCCESS,
@@ -34,6 +41,7 @@ import {
  export const LastRegistration=(username, email , password , roles)=>(dispatch)=>{
 
  console.log(username,email, password, roles)
+
   axios.post("http://localhost:3001/Auth/LastRegistration", {username,email,password,roles}).then(
     (response) => {
       console.log(response.data);
@@ -51,19 +59,13 @@ export const DeletePreRegisteredUser=(email)=>(dispatch)=>{
   });
 }
 
-  export const login = (email, password) => (dispatch) => {
-    return axios.post("http://localhost:3001/Auth/login",{email,password}).then(
-      (response) => {
-        console.log(response)
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        toast.success("Sign In Successfully ");
+   export const  login =  (thisUser) =>  (dispatch) => {
+    
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: { user: response.data },
+          payload: { user:thisUser  },
         });
-      }).catch(err=>toast.error(err.response.data.errors))
+  
   };
 
   export const forgetPassword = (email, password) => (dispatch) => {

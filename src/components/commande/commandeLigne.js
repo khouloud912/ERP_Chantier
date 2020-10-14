@@ -36,7 +36,7 @@ const CommandeLigne = (props) => {
       <div class="row row-offcanvas row-offcanvas-right">
       <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "4%" , marginLeft:"24%" }}> 
 
-  <div class="card" style={{ width:"600px"}}>
+  <div class="card" style={{ width:"800px"}}>
     <h3 class="card-header text-center font-weight-bold text-uppercase py-4">All My commandes</h3>
   <div class="card-body">
       <div id="table" class="table-editable">

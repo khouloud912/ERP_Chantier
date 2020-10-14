@@ -33,7 +33,7 @@ const Commande = ({cartProps , removeFromCart , adjustItemQty ,addCommande}) => 
   return ( 
     <div className="container-fluid page-body-wrapper">
     <div class="row row-offcanvas row-offcanvas-right">
-    <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "5%" , marginLeft:"28%" }}> 
+    <div class="content-wrapper" style={{backgroundColor: "white" ,marginTop: "5%" , marginLeft:"24%" }}> 
  
   <section>
     <div className="row">

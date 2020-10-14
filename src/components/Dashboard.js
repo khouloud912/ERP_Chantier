@@ -7,8 +7,6 @@ import {connect} from 'react-redux';
 class Dashboard extends Component {
   constructor(props){
     super(props);
-    console.log(this.props.FinanceState);
-    console.log(this.props.Rhstate)
   }
     render(){ 
         return (
@@ -31,7 +29,7 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </li>
-              {this.props.Rhstate===true && ( this.props.AuthProps.user.roles.includes("ROLE_RHUSER")  ||(this.props.AuthProps.user.roles.includes("ROLE_ADMIN"))) &&
+              {(this.props.NavbarProps.RhElement && ( this.props.AuthProps.user.roles.includes("ROLE_RHUSER")  ||this.props.AuthProps.user.roles.includes("ROLE_ADMIN")) )&&
               <div>
               <li className="nav-item">
                 <Link className="nav-link" to="/employee">
@@ -62,7 +60,7 @@ class Dashboard extends Component {
               </li>
               </div>
                }
-              {this.props.FinanceState=== true && (this.props.FinanceState=== true && this.props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") || (this.props.AuthProps.user.roles.includes("ROLE_ADMIN") )) &&
+              {(this.props.NavbarProps.FinanceElement && ( this.props.AuthProps.user.roles.includes("ROLE_FINANCEUSER") || this.props.AuthProps.user.roles.includes("ROLE_ADMIN") )) &&
               <div>
               <li className="nav-item">
                 <Link className="nav-link" to="/Articles">
@@ -117,10 +115,10 @@ class Dashboard extends Component {
              </div>
                   }
 
-{this.props.ManagementState=== true  && (this.props.AuthProps.user.roles.includes("ROLE_ADMIN")) &&
+{this.props.NavbarProps.AdminElement  && (this.props.AuthProps.user.roles.includes("ROLE_ADMIN")) &&
             <div>
               <li className="nav-item">
-                <Link className="nav-link" to="/">
+                <Link className="nav-link" to="/userManagment">
                   <i className="icon-shield menu-icon"></i>
                   <span className="menu-title">Users</span>
                 </Link>
@@ -137,6 +135,8 @@ class Dashboard extends Component {
 
 const mapStateToProps=(state)=>({
  AuthProps :state.AuthState,
+ NavbarProps : state.NavbarState,
+
 
   })
 export default connect(mapStateToProps)(Dashboard)

@@ -13,3 +13,5 @@
 [1010/195642.691:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\b12cee03-973f-4f09-81ee-147be99c7947: Le chemin d’accès spécifié est introuvable. (0x3)
 [1010/195642.692:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\ASUS\AppData\Local\Microsoft\Edge\User Data\Crashpad\attachments\d10fd1df-e432-4c4b-872b-14cae8de2778: Le chemin d’accès spécifié est introuvable. (0x3)
 [1010/195642.693:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
+[1011/122532.400:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
+[1013/113932.138:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
