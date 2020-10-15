@@ -20,6 +20,8 @@ db.provider = require("./provider.model")(sequelize, Sequelize);
 db.commande = require("./commande.model")(sequelize, Sequelize);
 db.reception = require("./reception.model")(sequelize, Sequelize);
 db.ligne_commande = require("./ligne_commande.model")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.role = require("./role.model.js")(sequelize, Sequelize);
 
 
 db.employee.hasMany(db.abscence, { as: "abscences" });
@@ -53,6 +55,14 @@ db.article.belongsTo(db.provider, {
   foreignKey: "providerId",
   as: "providers",
 });
+
+db.commande.hasMany(db.reception ,{as: "receptions" })
+db.reception.belongsTo(db.commande, {
+  foreignKey: "commandeId",
+  as: "commandes",
+});
+
+
 db.provider.hasMany(db.commande, {as: "commandes" });
 db.commande.belongsTo(db.provider, {
   foreignKey: "providerId",
@@ -69,4 +79,18 @@ db.commande.belongsToMany(db.article, {
   as: "articles",
   foreignKey: "commandeID",
 });
+
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
+
+db.ROLES = ["user", "admin", "moderator"];
+
 module.exports = db;

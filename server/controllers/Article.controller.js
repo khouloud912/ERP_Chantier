@@ -80,16 +80,41 @@ exports.findAllArticles = (req, res) => {
 };
 /**************************************************** */
 exports.findOne = (req, res) => {
+  //console.log(req.body.action)
     const id = req.params.id;
-    Article.findByPk(id)
+    console.log(id)
+    console.log("quantity",req.body);
+    if(req.body.action =="input"){
+      Article.findOne({where: {id: req.params.id}})
       .then(data => {
-        res.send(data);
+        console.log(data)   
+        //data.increment('Actual_quantity', {by: req.body.quantity });
+
+        data.update({ Actual_quantity: sequelize.literal('Actual_quantity +  req.body.quantity')})
+        //  newData=data;
+          res.send(data)
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving abscence with id=" + id
+          message: "Error retrieving article with id=" + id
         });
       });
+    } else if(req.body.action =="output"){
+      Article.findOne({where: {id: req.params.id}})
+      .then(data => {
+        console.log(data)   
+         data.decrement('Actual_quantity', {by: req.body.quantity });
+          //data.update({Actual_quantity : data.Actual_quantity - req.body.quantity})
+        //  newData=data;
+          res.send(data)
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error retrieving article with id=" + id
+        });
+      });
+
+    }  
 };
 /*******************************************************************/
 exports.updateArticle = (req, res) => {

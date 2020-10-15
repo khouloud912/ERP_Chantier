@@ -27,8 +27,8 @@ const multer=require('multer');
       })
 Router.post('/addArticle' ,upload.single('images'), t.create ) ;
 Router.get('/getAllArticles', t.findAllArticles ) ;
-Router.get('/getArticle/:id',t.findOne);
-Router.delete('/deleteArticle/:id',t.delete);
+Router.post('/getArticle/:id',t.findOne);
+Router.delete('/deleteArticle/:id', t.delete);
 Router.delete('/deleteAll',t.deleteAll);
 Router.put('/UpdateArticle/:id',t.updateArticle);
 module.exports=Router;

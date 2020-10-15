@@ -17,6 +17,7 @@ const ArticleOutputRoutes=require('./routes/ArticleOutput.route');
 const ArticleInputRoutes=require('./routes/ArticleInput.route');
 const ArticleRoutes=require('./routes/Article.route');
 const CommandeLigneRoutes=require('./routes/ligne_commande.route');
+const AuthRoutes=require('./routes/auth.route');
 
 
 var app = express();
@@ -27,7 +28,8 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE'); // allowed actiosn
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); 
   app.use('/uploads',express.static('uploads'))
-  
+  //app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
 
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200); // to deal with chrome sending an extra options request
@@ -35,7 +37,29 @@ app.use((req, res, next) => {
   next(); // call next middlewer in line
 });
 const db = require("./models");
-//db.sequelize.sync({force:true});
+const Role = db.role;
+
+function initial() {
+  Role.create({
+    id: 1,
+    name: "admin"
+  });
+ 
+  Role.create({
+    id: 2,
+    name: "RhUser"
+  });
+ 
+  Role.create({
+    id: 3,
+    name: "FinanceUser"
+  });
+}
+/*
+db.sequelize.sync({force:true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});*/
 app.use("/Employee", EmployeeRoutes);
 app.use("/Departement", DepartementRoutes);
 app.use("/Abscence",AbscenceRoutes);
@@ -48,6 +72,7 @@ app.use("/marque",MarqueRoutes);
 app.use("/Provider",ProviderRoutes);
 app.use("/Reception",ReceptionRoutes);
 app.use("/CommandeLigne",CommandeLigneRoutes);
+app.use("/Auth",AuthRoutes);
 
 app.listen(3001);
 

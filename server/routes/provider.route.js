@@ -1,4 +1,3 @@
-
 const express= require("express");
 const Router = express.Router();
 const t = require('../controllers/provider.controller');
