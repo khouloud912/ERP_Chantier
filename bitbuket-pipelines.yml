@@ -1,0 +1,10 @@
+image: node:10.16
+clone:
+  depth: full
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - git remote set-url origin https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git
+            - git push origin `git subtree split --prefix backend master`:master --force
